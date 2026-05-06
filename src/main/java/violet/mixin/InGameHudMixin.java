@@ -9,6 +9,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
 import violet.events.HudRenderEvent;
 import violet.features.chat.ChatPatches;
+import violet.features.render.HeldItemTooltip;
 import violet.hud.HudManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -40,5 +41,10 @@ public abstract class InGameHudMixin {
     @WrapWithCondition(method = "clear", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;clear(Z)V"))
     private boolean shouldClearChat(ChatHud instance, boolean clearHistory) {
         return !(ChatPatches.instance.isActive() && ChatPatches.keepHistory.value());
+    }
+
+    @Inject(method = "renderHeldItemTooltip", at = @At("HEAD"), cancellable = true)
+    private void cancelHeldItemTooltip(DrawContext context, CallbackInfo ci) {
+        if (HeldItemTooltip.instance.isActive()) ci.cancel();
     }
 }

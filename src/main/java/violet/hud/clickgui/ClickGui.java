@@ -29,6 +29,7 @@ import violet.features.player.SneakFix;
 import violet.features.player.UseDelay;
 import violet.features.render.DebugScreen;
 import violet.features.render.Fullbright;
+import violet.features.render.HeldItemTooltip;
 import violet.features.render.LowFire;
 import violet.features.render.NBTTooltip;
 import violet.features.render.NoBlockBreakParticles;
@@ -151,6 +152,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.Dropdown<>("Mode", Fullbright.mode, "The lighting mode.\n\nAmbient: Increases dimension ambient light, most reliable.\nGamma: Increases the Minecraft brightness setting to a high value.\nPotion: Permanently applies the Night Vision potion effect to your player."),
                     new Settings.Toggle("No Effect", Fullbright.noEffect, "Removes the Night Vision effect while active. Ignored if you use the Potion mode.")
                 ))),
+                new Module("Held Item Tooltip", HeldItemTooltip.instance, "Removes the text with held item's name."),
                 new Module("Low Fire", LowFire.instance, "Lowers the fire overlay.", new Settings(List.of(
                     new Settings.Toggle("No Render", LowFire.noRender, "Skips the rendering entirerly")
                 ))),
