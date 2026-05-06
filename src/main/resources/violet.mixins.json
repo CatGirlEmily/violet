@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "package": "violet.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ChatHudMixin",
+    "ChatScreenMixin",
+    "ClientConnectionMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ClientWorldMixin",
+    "DebugHudMixin",
+    "DrawContextMixin",
+    "GameRendererMixin",
+    "HandledScreenMixin",
+    "HeldItemRendererMixin",
+    "InGameHudMixin",
+    "InGameOverlayRendererMixin",
+    "KeyboardMixin",
+    "LevelSummaryMixin",
+    "LightmapTextureManagerMixin",
+    "LivingEntityAccessor",
+    "LivingEntityMixin",
+    "InactivityFpsLimiterMixin",
+    "MouseMixin",
+    "MinecraftClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

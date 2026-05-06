@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "violet",
+  "version": "${version}",
+  "name": "Violet",
+  "description": "It's in the name. Simple and effective Hypixel Skyblock mod for modern versions of Minecraft.",
+  "authors": [
+    "WhatYouThing"
+  ],
+  "contact": {
+    "sources": "https://github.com/WhatYouThing/violet"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/violet/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "violet.Main"
+    ]
+  },
+  "mixins": [
+    "violet.mixins.json"
+  ],
+  "accessWidener" : "violet.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.17.3",
+    "fabric-api": "*",
+    "owo-lib": "*",
+    "minecraft": ">=1.21.9",
+    "java": ">=21"
+  }
+}

@@ -1,0 +1,106 @@
+package violet.features.misc;
+
+import meteordevelopment.orbit.EventHandler;
+import net.minecraft.client.font.DrawnTextConsumer;
+import net.minecraft.client.gui.hud.ChatHud;
+import net.minecraft.client.gui.hud.ChatHudLine;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
+import violet.config.Feature;
+import violet.config.SettingBool;
+import violet.config.SettingInt;
+import violet.config.SettingKeybind;
+import violet.events.InputEvent;
+import violet.misc.Utils;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static violet.Main.mc;
+
+public class ChatPatches {
+    public static final Feature instance = new Feature("chatPatches");
+
+    public static final SettingKeybind copyKey = new SettingKeybind(GLFW.GLFW_KEY_UNKNOWN, "copyKey", instance);
+    public static final SettingKeybind copyLineKey = new SettingKeybind(GLFW.GLFW_KEY_UNKNOWN, "copyLineKey", instance);
+    public static final SettingBool trimOnCopy = new SettingBool(false, "trimOnCopy", instance);
+    public static final SettingBool msgOnCopy = new SettingBool(false, "msgOnCopy", instance);
+    public static final SettingInt copyMsgLength = new SettingInt(50, "copyMsgLength", instance);
+    public static final SettingBool keepHistory = new SettingBool(false, "keepHistory", instance);
+    public static final SettingBool extraLines = new SettingBool(false, "extraLines", instance);
+    public static final SettingInt lines = new SettingInt(1000, "lines", instance);
+
+    private static String getHoveredMsg(boolean singleLine) {
+        ChatHud chatHud = mc.inGameHud.getChatHud();
+        float mouseX = (float) mc.mouse.getScaledX(mc.getWindow());
+        float mouseY = (float) mc.mouse.getScaledY(mc.getWindow());
+        int chatBottom = MathHelper.floor((mc.getWindow().getScaledHeight() - 40) / mc.options.getChatScale().getValue());
+        int messageHeight = 9;
+        double chatLineSpacing = mc.options.getChatLineSpacing().getValue();
+        int entryHeight = (int) (messageHeight * (chatLineSpacing + 1.0));
+        int visibleEnd = Math.min(chatHud.visibleMessages.size(), chatHud.scrolledLines + ChatHud.getHeight(mc.options.getChatHeightFocused().getValue()) / entryHeight);
+        List<ChatHudLine.Visible> visibleMessages = chatHud.visibleMessages.subList(chatHud.scrolledLines, visibleEnd);
+        int i = -1;
+        for (int index = 0; index < visibleMessages.size(); index++) {
+            int entryBottom = chatBottom - index * entryHeight;
+            int entryTop = entryBottom - entryHeight;
+            if (DrawnTextConsumer.isWithinBounds(mouseX, mouseY, 0, entryTop, ChatHud.getWidth(mc.options.getChatWidth().getValue()), entryBottom)) {
+                i = index;
+                break;
+            }
+        }
+        if (i >= 0) {
+            StringBuilder builder = new StringBuilder();
+            List<ChatHudLine.Visible> lines = new ArrayList<>();
+            if (singleLine) {
+                lines.addFirst(visibleMessages.get(i));
+            } else {
+                for (int index = i + 1; index < visibleMessages.size(); index++) {
+                    ChatHudLine.Visible line = visibleMessages.get(index);
+                    if (line.endOfEntry()) break;
+                    lines.addFirst(line);
+                }
+                for (int index = i; index >= 0; index--) {
+                    ChatHudLine.Visible line = visibleMessages.get(index);
+                    lines.add(line);
+                    if (line.endOfEntry()) break;
+                }
+            }
+            for (ChatHudLine.Visible line : lines) {
+                line.content().accept((index, style, codePoint) -> {
+                    builder.appendCodePoint(codePoint);
+                    return true;
+                });
+            }
+            return Formatting.strip(builder.toString());
+        }
+        return "";
+    }
+
+
+    @EventHandler
+    private static void onInput(InputEvent event) {
+        if (instance.isActive() && mc.currentScreen instanceof ChatScreen && (copyKey.isKey(event.key) || copyLineKey.isKey(event.key))) {
+            if (event.action == GLFW.GLFW_PRESS) {
+                String message = getHoveredMsg(copyLineKey.isKey(event.key));
+                if (message.isEmpty()) return;
+                mc.keyboard.setClipboard(trimOnCopy.value() ? message.trim() : message);
+                if (msgOnCopy.value()) {
+                    String type = copyLineKey.isKey(event.key) ? "Line" : "Message";
+                    int length = copyMsgLength.value();
+                    if (length == 0) {
+                        Utils.infoFormat("§a{} copied to clipboard.", type);
+                    } else {
+                        Utils.infoFormat("§a{} copied to clipboard: \"§7{}§a\".",
+                                type,
+                                message.length() > length ? message.substring(0, length) + "..." : message
+                        );
+                    }
+                }
+            }
+            event.cancel();
+        }
+    }
+}
