@@ -6,6 +6,7 @@ import io.wispforest.owo.util.EventSource;
 import io.wispforest.owo.util.EventStream;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.MutableText;
+import violet.features.misc.ClickGuiFeature;
 import violet.misc.Rendering;
 import org.lwjgl.glfw.GLFW;
 
@@ -35,7 +36,7 @@ public class KeybindButton extends ButtonComponent {
         });
         this.renderer((context, btn, delta) -> {
             context.fill(btn.getX(), btn.getY(), btn.getX() + btn.getWidth(), btn.getY() + btn.getHeight(), 0xff101010);
-            Rendering.drawBorder(context, btn.getX(), btn.getY(), btn.getWidth(), btn.getHeight(), 0xff5ca0bf);
+            Rendering.drawBorder(context, btn.getX(), btn.getY(), btn.getWidth(), btn.getHeight(), ClickGuiFeature.getAccentColor() | 0xFF000000);
         });
         this.horizontalSizing(Sizing.fixed(80));
         this.setMessage(this.unbound);

@@ -17,7 +17,6 @@
     "InGameHudMixin",
     "InGameOverlayRendererMixin",
     "KeyboardMixin",
-    "LevelSummaryMixin",
     "LightmapTextureManagerMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",

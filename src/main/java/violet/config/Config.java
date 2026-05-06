@@ -12,7 +12,7 @@ import static violet.Main.LOGGER;
 
 public class Config {
     private static final Path folderPath = FabricLoader.getInstance().getConfigDir().resolve("violet");
-    private static final Path filePath = folderPath.resolve("Configuration.json");
+    private static final Path filePath = folderPath.resolve("config.json");
     private static JsonObject data = new JsonObject();
     private static int hash = 0;
 
@@ -55,5 +55,9 @@ public class Config {
 
     public static JsonObject get() {
         return data;
+    }
+
+    public static boolean isNew() {
+        return !Files.exists(filePath);
     }
 }

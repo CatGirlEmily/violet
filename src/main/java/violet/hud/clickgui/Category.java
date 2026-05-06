@@ -6,6 +6,7 @@ import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.container.UIContainers;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.text.Text;
+import violet.features.misc.ClickGuiFeature;
 import violet.hud.clickgui.components.PlainLabel;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class Category extends FlowLayout {
     protected Category(String title, List<Module> children) {
         super(Sizing.content(), Sizing.content(), Algorithm.VERTICAL);
         this.margins(Insets.of(5, 0, 3, 0));
-        Color color = Color.ofArgb(0xff5ca0bf);
+        int rawColor = ClickGuiFeature.getAccentColor();
+        Color color = Color.ofArgb(0xFF000000 | rawColor);
         Color textColor = Color.ofArgb(0xffffffff);
         FlowLayout modules = UIContainers.verticalFlow(Sizing.content(), Sizing.content());
         this.features = new ArrayList<>(children);
@@ -45,7 +47,7 @@ public class Category extends FlowLayout {
                 .child(label)
                 .alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER)
                 .padding(Insets.of(3))
-                .surface(Surface.flat(0xff5ca0bf));
+                .surface(Surface.flat(color.argb()));
         this.scroll = scroll;
         this.child(header);
         this.child(scroll);

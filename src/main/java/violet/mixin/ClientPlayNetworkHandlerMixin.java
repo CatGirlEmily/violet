@@ -10,6 +10,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import violet.features.misc.NoConfirmScreen;
 import violet.features.player.SneakFix;
+
 import java.util.ArrayList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

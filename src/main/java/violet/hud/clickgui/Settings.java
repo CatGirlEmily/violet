@@ -14,6 +14,7 @@ import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import violet.config.*;
+import violet.features.misc.ClickGuiFeature;
 import violet.hud.ColorPickerScreen;
 import violet.hud.clickgui.components.*;
 import violet.misc.Rendering;
@@ -31,9 +32,13 @@ import java.util.function.Consumer;
 import static violet.Main.mc;
 
 public class Settings extends BaseOwoScreen<FlowLayout> {
+    private static int getColor() {
+        return ClickGuiFeature.getAccentColor() | 0xFF000000;
+    }
+
     public static final ButtonComponent.Renderer buttonRenderer = (context, button, delta) -> {
         context.fill(button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), 0xff101010);
-        Rendering.drawBorder(context, button.getX(), button.getY(), button.getWidth(), button.getHeight(), 0xff5ca0bf);
+        Rendering.drawBorder(context, button.getX(), button.getY(), button.getWidth(), button.getHeight(), getColor());
     };
     public static final ButtonComponent.Renderer buttonRendererWhite = (context, button, delta) -> {
         context.fill(button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), 0xff101010);
@@ -164,7 +169,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
                 .child(label)
                 .alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER)
                 .padding(Insets.of(3))
-                .surface(Surface.flat(0xff5ca0bf));
+                .surface(Surface.flat(getColor()));
         parent.child(header);
         parent.child(this.scroll);
         root.child(parent);
@@ -213,7 +218,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
             this.setting = setting;
             PlainLabel label = new PlainLabel(Text.literal(name).withColor(0xffffff));
             FlatTextbox text = new FlatTextbox(Sizing.fixed(50));
-            FlatSlider slider = new FlatSlider(0xffdddddd, 0xff5ca0bf);
+            FlatSlider slider = new FlatSlider(0xffdddddd, getColor());
             slider.min(min).max(max).stepSize(step).horizontalSizing(Sizing.fixed(100)).verticalSizing(Sizing.fixed(20));
             label.verticalTextAlignment(VerticalAlignment.CENTER).margins(Insets.of(0, 0, 0, 5)).verticalSizing(Sizing.fixed(20));
             label.tooltip(Text.literal(tooltip));
@@ -250,7 +255,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
             this.setting = setting;
             PlainLabel label = new PlainLabel(Text.literal(name).withColor(0xffffff));
             FlatTextbox text = new FlatTextbox(Sizing.fixed(50));
-            FlatSlider slider = new FlatSlider(0xffdddddd, 0xff5ca0bf);
+            FlatSlider slider = new FlatSlider(0xffdddddd, getColor());
             slider.min(min).max(max).stepSize(step).horizontalSizing(Sizing.fixed(100)).verticalSizing(Sizing.fixed(20));
             label.verticalTextAlignment(VerticalAlignment.CENTER).margins(Insets.of(0, 0, 0, 5)).verticalSizing(Sizing.fixed(20));
             label.tooltip(Text.literal(tooltip));
@@ -289,7 +294,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
             EnumCollapsible dropdown = new EnumCollapsible(this.setting.value().name());
             label.verticalTextAlignment(VerticalAlignment.CENTER).margins(Insets.of(0, 0, 0, 5)).verticalSizing(Sizing.fixed(20));
             label.tooltip(Text.literal(tooltip));
-            dropdown.surface(Surface.flat(0xff101010).and(Surface.outline(0xff5ca0bf)));
+            dropdown.surface(Surface.flat(0xff101010).and(Surface.outline(getColor())));
             for (T value : this.setting.values) {
                 ButtonComponent button = UIComponents.button(Text.of(value.name()), btn -> {
                     dropdown.setLabel(value.name());

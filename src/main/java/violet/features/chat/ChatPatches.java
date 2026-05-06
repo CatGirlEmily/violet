@@ -1,4 +1,4 @@
-package violet.features.misc;
+package violet.features.chat;
 
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.font.DrawnTextConsumer;

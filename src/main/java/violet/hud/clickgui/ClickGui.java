@@ -13,12 +13,11 @@ import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import violet.commands.violetcommands.Silly;
 import violet.config.Config;
-import violet.features.ClickGuiFeature;
-import violet.features.misc.ChatPatches;
-import violet.features.misc.ChatRules;
-import violet.features.misc.CommandShortcuts;
-import violet.features.misc.CommandTooltip;
-import violet.features.misc.DebugScreen;
+import violet.features.chat.ChatPatches;
+import violet.features.chat.ChatRules;
+import violet.features.chat.CommandShortcuts;
+import violet.features.chat.CommandTooltip;
+import violet.features.misc.ClickGuiFeature;
 import violet.features.misc.NoConfirmScreen;
 import violet.features.misc.NoFpsLimiter;
 import violet.features.misc.VioletCommands;
@@ -28,6 +27,7 @@ import violet.features.player.BreakDelay;
 import violet.features.player.HotbarScroll;
 import violet.features.player.SneakFix;
 import violet.features.player.UseDelay;
+import violet.features.render.DebugScreen;
 import violet.features.render.Fullbright;
 import violet.features.render.LowFire;
 import violet.features.render.NBTTooltip;
@@ -120,15 +120,13 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
             new Category("Player", List.of(
                 new Module("Break Delay", BreakDelay.instance, "Disables the delay after breaking a block."),
                 new Module("Hotbar Scroll", HotbarScroll.instance, "Utilities for hotbar scrolling", new Settings(List.of(
-                    new Settings.Toggle("Lock Scroll", HotbarScroll.lockScroll , "Disables the ability to change slot with mouse wheel."),
-                    new Settings.Toggle("No Overflow", HotbarScroll.noOverflow , "Locks scroll at the edges.")
+                    new Settings.Toggle("Lock Scroll", HotbarScroll.lockScroll, "Disables the ability to change slot with mouse wheel."),
+                    new Settings.Toggle("No Overflow", HotbarScroll.noOverflow, "Locks scroll at the edges.")
                 ))),
-                new Module("Sneak Fix", SneakFix.instance, "Fixes the bug with camera bouncing while repeatedly sneaking"),
+                new Module("Sneak Fix", SneakFix.instance, "Fixes the bug with camera bouncing while repeatedly sneaking."),
                 new Module("Use Delay", UseDelay.instance, "Disables the use delay.")
-
             )),
-            
-            
+
             ////////////////////////////////////////////////////////////////////////////////////
             /// movement
             ////////////////////////////////////////////////////////////////////////////////////
@@ -145,10 +143,14 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
             /// render
             ////////////////////////////////////////////////////////////////////////////////////
             new Category("Render", List.of(
+                new Module("Debug Screen", DebugScreen.instance, "Modifiers for F3 screen", new Settings(List.of(
+                    new Settings.SliderInt("XYZ precision", 1, 7, 1, DebugScreen.xyzPrecision, "Amount of digits after comma. Recommended 3 because everything after that doesn't matter\n except for very few edge cases (E-7 stepping) + floats loose precision past 7."),
+                    new Settings.SliderInt("Facing precision", 1, 7, 1, DebugScreen.facingPrecision, "Amount of digits after comma. Recommended 2 as more dont affect movement at all.")
+                ))),
                 new Module("Fullbright", Fullbright.instance, "You know him, you love him.", new Settings(List.of(
                     new Settings.Dropdown<>("Mode", Fullbright.mode, "The lighting mode.\n\nAmbient: Increases dimension ambient light, most reliable.\nGamma: Increases the Minecraft brightness setting to a high value.\nPotion: Permanently applies the Night Vision potion effect to your player."),
                     new Settings.Toggle("No Effect", Fullbright.noEffect, "Removes the Night Vision effect while active. Ignored if you use the Potion mode.")
-                ))), // module close
+                ))),
                 new Module("Low Fire", LowFire.instance, "Lowers the fire overlay.", new Settings(List.of(
                     new Settings.Toggle("No Render", LowFire.noRender, "Skips the rendering entirerly")
                 ))),
@@ -156,13 +158,13 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.Toggle("Only on Keybind", NBTTooltip.showWhileHeld, "Whether to show only when keybind is being held"),
                     new Settings.Keybind("Show Keybind", NBTTooltip.showKeybind, "the keybind ^")
                 ))),
-                new Module("No Break Particles", NoBlockBreakParticles.instance, "disables block breaking particles"),  
+                new Module("No Break Particles", NoBlockBreakParticles.instance, "Disables block breaking particles."),
+                new Module("Time Changer", TimeChanger.instance, "Changes client-side time of day.", new Settings(List.of(
+                    new Settings.SliderInt("time", 0, 24000, 1, TimeChanger.time, "6000 for noon, 18000 for midnight.")
+                ))),
                 new Module("Tooltip Scale", TooltipScale.instance, "Customize the scale of tooltips.", new Settings(List.of(
                     new Settings.Dropdown<>("Mode", TooltipScale.mode, "The scaling mode.\n\nDynamic: Automatically scales down tooltips so that they always fit the screen.\nCustom: Scales tooltips using the Custom Scale value."),
                     new Settings.SliderDouble("Custom Scale", 0.0, 4.0, 0.01, TooltipScale.scale, "The custom scale multiplier. Ignored if using Dynamic mode.")
-                ))),
-                new Module("Time Changer", TimeChanger.instance, "Changes client-side time of day.", new Settings(List.of(
-                    new Settings.SliderInt("time", 0, 24000, 1, TimeChanger.time, "6000 for noon, 18000 for midnight.")
                 ))),
                 new Module("Viewmodel", Viewmodel.instance, "Easily customize the appearance of your held item.", new Settings(List.of(
                     new Settings.Toggle("No Haste", Viewmodel.noHaste, "Prevents Haste and Mining Fatigue from affecting your swing speed."),
@@ -183,22 +185,18 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.SliderDouble("Swing Y", 0, 2*viewmodelmultiplier, 0.01, Viewmodel.swingY, "The Y multiplier for swing animation offset."),
                     new Settings.SliderDouble("Swing Z", 0, 2*viewmodelmultiplier, 0.01, Viewmodel.swingZ, "The Z multiplier for swing animation offset.")
                 ))),
-                 new Module("Zoom", Zoom.instance, "Zoom", new Settings(List.of(
+                new Module("Zoom", Zoom.instance, "Zoom", new Settings(List.of(
                     new Settings.DoubleInput("Zoom Scale", Zoom.scale, "how much to zoom in (min 1.0 as less freezes the game)"),
                     new Settings.Toggle("Cinematic Camera", Zoom.cinematic, "whether to turn on smooth camera like in optifine"),
                     new Settings.Keybind("zoom", Zoom.keybind, "zoom (hold)")
                 )))
-            )), // category close
+            )),
 
             ////////////////////////////////////////////////////////////////////////////////////
-            /// misc
+            /// chat
             ////////////////////////////////////////////////////////////////////////////////////
-            new Category("Misc", List.of(
-                new Module("ClickGui", ClickGuiFeature.instance, "this gui", new Settings(List.of(
-                    new Settings.Keybind("Open GUI", ClickGuiFeature.openKey, "key to open this gui"),
-                    new Settings.Toggle("Close If Opened", ClickGuiFeature.closeIfOpen, "If pressed while gui is already opened, it will close.")
-                ))),
-
+            new Category("Chat", List.of(
+                new Module("Chat Rules", ChatRules.instance, "Create custom rules that activate when a matching message is sent in chat.", ChatRules.buildSettings()),
                 new Module("Chat Tweaks", ChatPatches.instance, "Various features/improvements for the chat hud.", new Settings(List.of(
                     new Settings.Keybind("Copy Key", ChatPatches.copyKey, "Copies the hovered message to clipboard when pressed."),
                     new Settings.Keybind("Copy Line Key", ChatPatches.copyLineKey, "Copies the hovered line of a message to clipboard when pressed."),
@@ -209,12 +207,18 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.Toggle("Extra Lines", ChatPatches.extraLines, "Overrides the chat line limit. Allows you to keep more messages in the chat history."),
                     new Settings.SliderInt("Lines", 100, 5000, 10, ChatPatches.lines, "The chat line limit override.")
                 ))),
-                new Module("Chat Rules", ChatRules.instance, "Create custom rules that activate when a matching message is sent in chat.", ChatRules.buildSettings()),
-                new Module("Command Tooltip", CommandTooltip.instance, "Reveals the command that the hovered chat message would run when clicked."),
                 new Module("Command Shortcuts", CommandShortcuts.instance, "Create shortcuts which send a specific message/command when ran.\nNote: A rejoin is required to fully apply the changes made to the shortcuts.", CommandShortcuts.buildSettings()),
-                new Module("Debug Screen", DebugScreen.instance, "Modifiers for F3 screen", new Settings(List.of(
-                    new Settings.SliderInt("XYZ precision", 1, 7, 1, DebugScreen.xyzPrecision, "Amount of digits after comma. Recommended 3 because everything after that doesn't matter\n except for very few edge cases (E-7 stepping) + floats loose precision past 7."),
-                    new Settings.SliderInt("Facing precision", 1, 7, 1, DebugScreen.facingPrecision, "Amount of digits after comma. Recommended 2 as more dont affect movement at all.")
+                new Module("Command Tooltip", CommandTooltip.instance, "Reveals the command that the hovered chat message would run when clicked.")
+            )),
+
+            ////////////////////////////////////////////////////////////////////////////////////
+            /// misc
+            ////////////////////////////////////////////////////////////////////////////////////
+            new Category("Misc", List.of(
+                new Module("ClickGui", ClickGuiFeature.instance, "this gui", new Settings(List.of(
+                    new Settings.Keybind("Open GUI", ClickGuiFeature.openKey, "key to open this gui"),
+                    new Settings.Toggle("Close If Opened", ClickGuiFeature.closeIfOpen, "If pressed while gui is already opened, it will close."),
+                    new Settings.ColorPicker("Accent Color", ClickGuiFeature.accentColor, "color")
                 ))),
                 new Module("No Confirm Screen", NoConfirmScreen.instance, "Skips 'confirm command execution' screen."),
                 new Module("No Fps Limiter", NoFpsLimiter.instance, "Disables minecraft's 'limit fps when AFK/minimized' very cool much wanted feature."),
@@ -222,10 +226,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.TextInput("Prefix", VioletCommands.prefix, "Prefix of the commands. defaults to '.', more than 1 character will have no effect."),
                     new Settings.Toggle("Open Chat On Keybind", VioletCommands.openChatOnKeybind, "Whether to open chat upon pressing prefix on your keyboard."),
                     new Settings.Toggle("Add To Sent History", VioletCommands.addToHistory, "If on, previously executed commands will be avaible with ARROWUP key.")
-                    
                 )))
-            ))  // category close
-        ); // array close
+            ))
+        );
 
 
         this.categories.getLast().margins(Insets.of(5, 0, 3, 3));
@@ -240,7 +243,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
         hudEditorButton.positioning(Positioning.relative(100, 100));
         hudEditorButton.renderer((context, button, delta) -> {
             context.fill(button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), 0xff101010);
-            Rendering.drawBorder(context, button.getX(), button.getY(), button.getWidth(), button.getHeight(), 0xff5ca0bf);
+            Rendering.drawBorder(context, button.getX(), button.getY(), button.getWidth(), button.getHeight(), ClickGuiFeature.getAccentColor() | 0xFF000000);
         });
         root.child(hudEditorButton);
         FlatTextbox searchBox = new FlatTextbox(Sizing.fixed(200));

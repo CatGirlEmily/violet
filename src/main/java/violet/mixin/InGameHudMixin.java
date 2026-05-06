@@ -8,7 +8,7 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
 import violet.events.HudRenderEvent;
-import violet.features.misc.ChatPatches;
+import violet.features.chat.ChatPatches;
 import violet.hud.HudManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

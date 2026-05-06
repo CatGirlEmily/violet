@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.util.math.MathHelper;
-import violet.features.misc.DebugScreen;
+import violet.features.render.DebugScreen;
 
 @Mixin(DebugHud.class)
 public class DebugHudMixin {

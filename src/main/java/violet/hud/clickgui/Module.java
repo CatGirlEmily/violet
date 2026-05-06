@@ -5,6 +5,7 @@ import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.gui.Click;
 import net.minecraft.text.Text;
 import violet.config.Feature;
+import violet.features.misc.ClickGuiFeature;
 import violet.hud.clickgui.components.PlainLabel;
 import org.lwjgl.glfw.GLFW;
 
@@ -24,7 +25,7 @@ public class Module extends FlowLayout {
 
     public Module(String name, Feature feature, String tooltip, Settings options) {
         super(Sizing.content(), Sizing.content(), Algorithm.VERTICAL);
-        this.activeText = Text.literal(name).withColor(0x5ca0bf);
+        this.activeText = Text.literal(name).withColor(ClickGuiFeature.getAccentColor());
         this.inactiveText = Text.literal(name).withColor(0xdddddd);
         this.label = new PlainLabel(Text.literal(name));
         this.label.horizontalTextAlignment(HorizontalAlignment.LEFT).verticalTextAlignment(VerticalAlignment.CENTER).margins(Insets.of(3, 2, 5, 5));

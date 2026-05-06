@@ -17,7 +17,7 @@ public class Say {
                 .executes(ctx -> {
                     String message = ctx.getArgument("message", String.class);
 
-                    if (message != null) Utils.sendMessage(message);
+                    if (message != null) Utils.say(message);
                     return SINGLE_SUCCESS;
                 })
             )

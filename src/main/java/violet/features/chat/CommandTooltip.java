@@ -1,4 +1,4 @@
-package violet.features.misc;
+package violet.features.chat;
 
 import violet.config.Feature;
 

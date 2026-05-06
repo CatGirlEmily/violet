@@ -51,7 +51,7 @@ public class HudEditorScreen extends BaseOwoScreen<FlowLayout> {
         }
         super.render(context, mouseX, mouseY, delta);
         int center = context.getScaledWindowWidth() / 2;
-        context.drawCenteredTextWithShadow(mc.textRenderer, "violet HUD Editor", center, 10, RenderColor.white.argb);
+        context.drawCenteredTextWithShadow(mc.textRenderer, "Violet HUD Editor", center, 10, RenderColor.white.argb);
         context.drawCenteredTextWithShadow(mc.textRenderer, "Left click element to hide", center, 20, RenderColor.white.argb);
         context.drawCenteredTextWithShadow(mc.textRenderer, "Right click element to view its settings", center, 30, RenderColor.white.argb);
         context.drawCenteredTextWithShadow(mc.textRenderer, "Right click screen to add/remove elements", center, 40, RenderColor.white.argb);

@@ -4,10 +4,11 @@ import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.core.Insets;
 import io.wispforest.owo.ui.core.Sizing;
 import net.minecraft.client.gui.DrawContext;
+import violet.features.misc.ClickGuiFeature;
 import violet.misc.Rendering;
 
 public class FlatTextbox extends TextBoxComponent {
-    public int borderColor = 0xff5ca0bf;
+    public int borderColor = ClickGuiFeature.getAccentColor() | 0xFF000000;
 
     public FlatTextbox(Sizing horizontalSizing) {
         super(horizontalSizing);

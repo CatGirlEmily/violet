@@ -1,4 +1,4 @@
-package violet.features.misc;
+package violet.features.chat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

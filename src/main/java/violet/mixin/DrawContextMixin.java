@@ -12,7 +12,7 @@ import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import violet.features.misc.CommandTooltip;
+import violet.features.chat.CommandTooltip;
 import violet.features.render.TooltipScale;
 import violet.misc.Utils;
 

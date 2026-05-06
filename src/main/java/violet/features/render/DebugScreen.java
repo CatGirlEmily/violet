@@ -1,4 +1,4 @@
-package violet.features.misc;
+package violet.features.render;
 
 import violet.config.Feature;
 import violet.config.SettingInt;

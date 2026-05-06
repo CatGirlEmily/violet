@@ -2,7 +2,8 @@ package violet.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.gui.hud.ChatHud;
-import violet.features.misc.ChatPatches;
+import violet.features.chat.ChatPatches;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 

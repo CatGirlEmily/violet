@@ -1,4 +1,4 @@
-package violet.features.misc;
+package violet.features.chat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -46,11 +46,11 @@ public class CommandShortcuts {
                 }
                 String name = shortcutName.startsWith("/") ? shortcutName.substring(1) : shortcutName;
                 LiteralArgumentBuilder<FabricClientCommandSource> command = literal(name.trim()).executes(context -> {
-                    Utils.sendMessage(shortcut.get("message").getAsString());
+                    Utils.say(shortcut.get("message").getAsString());
                     return SINGLE_SUCCESS;
                 }).then(argument("param", StringArgumentType.greedyString()).executes(context -> {
                     String param = StringArgumentType.getString(context, "param");
-                    Utils.sendMessage(Utils.format("{} {}", shortcut.get("message").getAsString(), param.trim()));
+                    Utils.say(Utils.format("{} {}", shortcut.get("message").getAsString(), param.trim()));
                     return SINGLE_SUCCESS;
                 }));
                 dispatcher.register(command);

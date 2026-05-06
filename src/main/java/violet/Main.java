@@ -8,18 +8,17 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.network.listener.ClientCommonPacketListener;
 import violet.commands.EnchantVCommand;
 import violet.commands.VioletCommand;
 import violet.commands.violetcommands._CommandHandler;
 import violet.config.Config;
 import violet.events.ChatMsgEvent;
 import violet.events.OverlayMsgEvent;
-import violet.features.misc.ChatPatches;
-import violet.features.misc.ChatRules;
-import violet.features.misc.CommandShortcuts;
+import violet.features.chat.ChatPatches;
+import violet.features.chat.ChatRules;
+import violet.features.chat.CommandShortcuts;
+import violet.features.misc.ClickGuiFeature;
 import violet.features.misc.VioletCommands;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
@@ -38,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import com.mojang.brigadier.CommandDispatcher;
 
 import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
 
 public class Main implements ModInitializer {
     public static final String MOD_ID = "violet";
@@ -70,6 +68,7 @@ public class Main implements ModInitializer {
     public void onInitialize() {
         mc = MinecraftClient.getInstance();
         injectRenderDoc();
+        if (Config.isNew()) firstLaunch();
         Config.load();
         ConfigScreenProviders.register(MOD_ID, screen -> new ClickGui());
         _CommandHandler.init();
@@ -86,7 +85,7 @@ public class Main implements ModInitializer {
             return !cancelled;
         });
 
-        eventBus.subscribe(violet.features.ClickGuiFeature.class);
+        eventBus.subscribe(ClickGuiFeature.class);
         eventBus.subscribe(HudManager.class);
 
         eventBus.subscribe(Fullbright.class);
@@ -101,5 +100,9 @@ public class Main implements ModInitializer {
         eventBus.subscribe(ChatPatches.class);
         eventBus.subscribe(ChatRules.class);
         eventBus.subscribe(VioletCommands.class);
+    }
+
+    private void firstLaunch() {
+        VioletCommands.instance.setActive(true);
     }
 }
