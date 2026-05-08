@@ -20,6 +20,7 @@ import violet.features.chat.ChatRules;
 import violet.features.chat.CommandAliases;
 import violet.features.misc.ClickGuiFeature;
 import violet.features.misc.CommandKeybinds;
+import violet.features.misc.NoServerPack;
 import violet.features.misc.VioletCommands;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
@@ -102,6 +103,7 @@ public class Main implements ModInitializer {
         eventBus.subscribe(ChatRules.class);
         eventBus.subscribe(CommandKeybinds.class);
         eventBus.subscribe(VioletCommands.class);
+        eventBus.subscribe(NoServerPack.class);
     }
 
     private void firstLaunch() {

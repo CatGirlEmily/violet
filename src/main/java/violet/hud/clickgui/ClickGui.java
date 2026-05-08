@@ -22,6 +22,7 @@ import violet.features.misc.CommandKeybinds;
 import violet.features.misc.NoConfirmScreen;
 import violet.features.misc.NoFpsLimiter;
 import violet.features.misc.NoLoadingScreen;
+import violet.features.misc.NoServerPack;
 import violet.features.misc.VioletCommands;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
@@ -230,6 +231,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 new Module("No Confirm Screen", NoConfirmScreen.instance, "Skips 'confirm command execution' screen."),
                 new Module("No Fps Limiter", NoFpsLimiter.instance, "Disables minecraft's \"limit fps when AFK/minimize\" very cool much wanted feature."),
                 new Module("No Loading Screen", NoLoadingScreen.instance, "Removes \"loading terrain\" screen."),
+                new Module("No Server Pack", NoServerPack.instance, "Allows you to play without forced server resource pack"),
                 new Module("Violet Commands", VioletCommands.instance, "Custom Violet Commands, defaulting to '.' as prefix", new Settings(List.of(
                     new Settings.TextInput("Prefix", VioletCommands.prefix, "Prefix of the commands. defaults to '.', more than 1 character will have no effect."),
                     new Settings.Toggle("Open Chat On Keybind", VioletCommands.openChatOnKeybind, "Whether to open chat upon pressing prefix on your keyboard."),
