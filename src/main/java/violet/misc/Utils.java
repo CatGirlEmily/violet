@@ -8,6 +8,7 @@ import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
@@ -377,5 +378,11 @@ public class Utils {
 
     public static void showTitle(String title, String subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
         showTitle(Text.literal(title), Text.literal(subtitle), fadeInTicks, stayTicks, fadeOutTicks);
+    }
+
+    public static String getServerIP() {
+        ServerInfo info = mc.getCurrentServerEntry();
+        if (info == null) return "singleplayer";
+        return toLower(info.address);
     }
 }

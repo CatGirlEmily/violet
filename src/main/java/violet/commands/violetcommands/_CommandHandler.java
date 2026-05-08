@@ -21,6 +21,7 @@ public class _CommandHandler {
         Rotate.init(dispatcher);
         Say.init(dispatcher);
         Session.init(dispatcher);
+        test.init(dispatcher);
     }
 
     // true if parsed as command

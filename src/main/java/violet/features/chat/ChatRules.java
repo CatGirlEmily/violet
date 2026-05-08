@@ -29,6 +29,10 @@ import java.util.regex.Pattern;
 
 import static violet.Main.mc;
 
+/*
+    copied from nofrills
+ */
+
 public class ChatRules {
     public static final Feature instance = new Feature("chatRules");
 

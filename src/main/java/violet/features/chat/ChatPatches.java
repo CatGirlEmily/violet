@@ -14,12 +14,14 @@ import violet.config.SettingKeybind;
 import violet.events.InputEvent;
 import violet.misc.Utils;
 import org.lwjgl.glfw.GLFW;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static violet.Main.mc;
 
+/*
+    copied from nofrills
+ */
 public class ChatPatches {
     public static final Feature instance = new Feature("chatPatches");
 

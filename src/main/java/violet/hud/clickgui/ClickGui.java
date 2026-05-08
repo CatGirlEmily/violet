@@ -15,11 +15,13 @@ import violet.commands.violetcommands.Silly;
 import violet.config.Config;
 import violet.features.chat.ChatPatches;
 import violet.features.chat.ChatRules;
-import violet.features.chat.CommandShortcuts;
+import violet.features.chat.CommandAliases;
 import violet.features.chat.CommandTooltip;
 import violet.features.misc.ClickGuiFeature;
+import violet.features.misc.CommandKeybinds;
 import violet.features.misc.NoConfirmScreen;
 import violet.features.misc.NoFpsLimiter;
+import violet.features.misc.NoLoadingScreen;
 import violet.features.misc.VioletCommands;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
@@ -119,13 +121,13 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
             /// player
             ////////////////////////////////////////////////////////////////////////////////////
             new Category("Player", List.of(
-                new Module("Break Delay", BreakDelay.instance, "Disables the delay after breaking a block."),
+                new Module("Break Delay", BreakDelay.instance, "<!> Disables the delay after breaking a block."),
                 new Module("Hotbar Scroll", HotbarScroll.instance, "Utilities for hotbar scrolling", new Settings(List.of(
                     new Settings.Toggle("Lock Scroll", HotbarScroll.lockScroll, "Disables the ability to change slot with mouse wheel."),
                     new Settings.Toggle("No Overflow", HotbarScroll.noOverflow, "Locks scroll at the edges.")
                 ))),
                 new Module("Sneak Fix", SneakFix.instance, "Fixes the bug with camera bouncing while repeatedly sneaking."),
-                new Module("Use Delay", UseDelay.instance, "Disables the use delay.")
+                new Module("Use Delay", UseDelay.instance, "<!> Disables the use delay.")
             )),
 
             ////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +137,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 new Module("AutoSprint", AutoSprint.instance, "Toggle Sprint (better than minecraft's as does on reset on world change)", new Settings(List.of(
                     new Settings.Keybind("Toggle", AutoSprint.toggleKey, "Swaps between sprinting and walking.")
                 ))),
-                new Module("Jump Cooldown", NoJumpCooldown.instance, "Removes the 10 tick jump delay. Some servers may consider this a cheat.", new Settings(List.of(
+                new Module("Jump Cooldown", NoJumpCooldown.instance, "<!> Removes the 10 tick jump delay. Some servers may consider this a cheat.", new Settings(List.of(
                     new Settings.Keybind("Toggle", NoJumpCooldown.toggleKey, "Disables/Enables the module.")
                 )))
             )),
@@ -209,7 +211,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.Toggle("Extra Lines", ChatPatches.extraLines, "Overrides the chat line limit. Allows you to keep more messages in the chat history."),
                     new Settings.SliderInt("Lines", 100, 5000, 10, ChatPatches.lines, "The chat line limit override.")
                 ))),
-                new Module("Command Shortcuts", CommandShortcuts.instance, "Create shortcuts which send a specific message/command when ran.\nNote: A rejoin is required to fully apply the changes made to the shortcuts.", CommandShortcuts.buildSettings()),
+                new Module("Command Aliases", CommandAliases.instance, "Create commands which send a specific message/command when ran.\nNote: A rejoin is required to fully apply the changes made.", CommandAliases.buildSettings()),
                 new Module("Command Tooltip", CommandTooltip.instance, "Reveals the command that the hovered chat message would run when clicked.")
             )),
 
@@ -222,8 +224,10 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.Toggle("Close If Opened", ClickGuiFeature.closeIfOpen, "If pressed while gui is already opened, it will close."),
                     new Settings.ColorPicker("Accent Color", ClickGuiFeature.accentColor, "color")
                 ))),
+                new Module("Command Keybinds", CommandKeybinds.instance, "Create keybinds that run a custom command when pressed.", CommandKeybinds.buildSettings()),
                 new Module("No Confirm Screen", NoConfirmScreen.instance, "Skips 'confirm command execution' screen."),
-                new Module("No Fps Limiter", NoFpsLimiter.instance, "Disables minecraft's 'limit fps when AFK/minimized' very cool much wanted feature."),
+                new Module("No Fps Limiter", NoFpsLimiter.instance, "Disables minecraft's \"limit fps when AFK/minimize\" very cool much wanted feature."),
+                new Module("No Loading Screen", NoLoadingScreen.instance, "Removes \"loading terrain\" screen."),
                 new Module("Violet Commands", VioletCommands.instance, "Custom Violet Commands, defaulting to '.' as prefix", new Settings(List.of(
                     new Settings.TextInput("Prefix", VioletCommands.prefix, "Prefix of the commands. defaults to '.', more than 1 character will have no effect."),
                     new Settings.Toggle("Open Chat On Keybind", VioletCommands.openChatOnKeybind, "Whether to open chat upon pressing prefix on your keyboard."),

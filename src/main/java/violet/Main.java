@@ -17,8 +17,9 @@ import violet.events.ChatMsgEvent;
 import violet.events.OverlayMsgEvent;
 import violet.features.chat.ChatPatches;
 import violet.features.chat.ChatRules;
-import violet.features.chat.CommandShortcuts;
+import violet.features.chat.CommandAliases;
 import violet.features.misc.ClickGuiFeature;
+import violet.features.misc.CommandKeybinds;
 import violet.features.misc.VioletCommands;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
@@ -61,7 +62,7 @@ public class Main implements ModInitializer {
     public static void registerCommands(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess access) {
         VioletCommand.init(dispatcher);
         EnchantVCommand.init(dispatcher);
-        CommandShortcuts.init(dispatcher);
+        CommandAliases.init(dispatcher);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class Main implements ModInitializer {
         
         eventBus.subscribe(ChatPatches.class);
         eventBus.subscribe(ChatRules.class);
+        eventBus.subscribe(CommandKeybinds.class);
         eventBus.subscribe(VioletCommands.class);
     }
 
