@@ -27,6 +27,7 @@ import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
 import violet.features.player.BreakDelay;
 import violet.features.player.HotbarScroll;
+import violet.features.player.NoFrontPerspective;
 import violet.features.player.SneakFix;
 import violet.features.player.UseDelay;
 import violet.features.render.DebugScreen;
@@ -126,6 +127,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.Toggle("Lock Scroll", HotbarScroll.lockScroll, "Disables the ability to change slot with mouse wheel."),
                     new Settings.Toggle("No Overflow", HotbarScroll.noOverflow, "Locks scroll at the edges.")
                 ))),
+                new Module("No Front Perspective", NoFrontPerspective.instance, "Removes the front facing camera perspective."),
                 new Module("Sneak Fix", SneakFix.instance, "Fixes the bug with camera bouncing while repeatedly sneaking."),
                 new Module("Use Delay", UseDelay.instance, "<!> Disables the use delay.")
             )),

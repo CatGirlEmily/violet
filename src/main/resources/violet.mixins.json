@@ -12,6 +12,7 @@
     "DebugHudMixin",
     "DrawContextMixin",
     "GameRendererMixin",
+    "GameOptionsMixin",
     "HandledScreenMixin",
     "HeldItemRendererMixin",
     "InGameHudMixin",
