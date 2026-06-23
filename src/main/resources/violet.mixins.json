@@ -3,9 +3,9 @@
   "package": "violet.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ChatHudMixin",
+    "ChatComponentMixin",
     "ChatScreenMixin",
-    "ClientConnectionMixin",
+    "ConnectionMixin",
     "ClientPlayNetworkHandlerMixin",
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
