@@ -5,11 +5,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.GuiMessageTag;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.chat.GuiMessageSource;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -126,10 +127,10 @@ public class Utils {
     }
 
     public static void infoRaw(MutableComponent message) {
-        if (message.getStyle() == null || message.getStyle().getColor() == null) {
-            message = message.withColor(0xffffff);
+        if (message.getStyle().getColor() == null) {
+            message.withColor(0xffffff);
         }
-        mc.gui.getChat().addMessage(getTag().append(message), null, violetIndicator);
+        mc.gui.getChat().addMessage(getTag().append(message), null, GuiMessageSource.SYSTEM_CLIENT, violetIndicator);
     }
 
     public static void infoFormat(String message, Object... values) {

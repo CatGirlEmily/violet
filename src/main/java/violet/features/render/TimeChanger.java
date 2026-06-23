@@ -16,7 +16,7 @@ public class TimeChanger {
     private static void onPacketReceive(ReceivePacketEvent event) {
         if (instance.isActive() && (event.packet instanceof ClientboundSetTimePacket)) {
             event.cancel();
-            if (mc.level != null) mc.level.setTimeFromServer(time.get().getAsLong(), time.get().getAsLong(), false);
+            if (mc.level != null) mc.level.setTimeFromServer(time.get().getAsLong());
         }
     }
 }

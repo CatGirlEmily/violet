@@ -6,7 +6,7 @@ import violet.hud.clickgui.ClickGui;
 import violet.misc.Utils;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
 public class VioletCommand {
     public static void init(CommandDispatcher<FabricClientCommandSource> dispatcher) {

@@ -2,12 +2,13 @@ package violet.hud;
 
 import io.wispforest.owo.ui.hud.Hud;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.ping.ClientboundPongResponsePacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.UnknownNullability;
 import violet.events.*;
 import violet.hud.elements.*;
 import violet.misc.Utils;
@@ -100,7 +101,7 @@ public class HudManager {
     @EventHandler
     private static void onWorldTick(WorldTickEvent event) {
         if (day.isActive() && mc.level != null) {
-            day.setDay(mc.level.getLevelData().getDayTime() / 24000L);
+            day.setDay(mc.level.getLevelData().getGameTime() / 24000L);
         }
         if (ping.isActive()) { // pings every second when element is enabled, waits until ping result is received
             if (ping.ticks > 0) {
@@ -171,13 +172,13 @@ public class HudManager {
             this.ticks = 0;
         }
 
-        public void draw(GuiGraphics context) {
+        public void draw(@UnknownNullability GuiGraphicsExtractor context) {
             context.pose().pushMatrix();
             context.pose().translate(context.guiWidth() * 0.5f, context.guiHeight() * 0.5f);
             context.pose().pushMatrix();
             context.pose().scale(4.0F, 4.0F);
             int width = mc.font.width(this.text);
-            context.drawStringWithBackdrop(mc.font, this.text, -width / 2, -context.guiHeight() / 12, width, -1);
+            context.textWithBackdrop(mc.font, this.text, -width / 2, -context.guiHeight() / 12, width, -1);
             context.pose().popMatrix();
             context.pose().popMatrix();
         }

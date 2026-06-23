@@ -18,8 +18,8 @@ import net.minecraft.world.level.GameType;
 import violet.misc.Utils;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 import static violet.misc.IdentifierArgumentType.getId;
 import static violet.misc.IdentifierArgumentType.identifier;
 

@@ -4,21 +4,21 @@ import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.UIContainers;
 import io.wispforest.owo.ui.core.*;
-import violet.hud.clickgui.ClickGui;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import org.lwjgl.glfw.GLFW;
 import violet.hud.clickgui.Settings;
 import violet.hud.clickgui.components.PlainLabel;
 import violet.hud.clickgui.components.ToggleButton;
 import violet.misc.RenderColor;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.network.chat.Component;
 
 import static violet.Main.mc;
 
@@ -45,20 +45,20 @@ public class HudEditorScreen extends BaseOwoScreen<FlowLayout> {
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawComponentTooltip(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         for (HudElement element : HudManager.getElements()) {
             if (element.isAdded()) element.updatePosition();
         }
-        super.render(context, mouseX, mouseY, delta);
+        super.drawComponentTooltip(context, mouseX, mouseY, delta);
         int center = context.guiWidth() / 2;
-        context.drawCenteredString(mc.font, "Violet HUD Editor", center, 10, RenderColor.white.argb);
-        context.drawCenteredString(mc.font, "Left click element to hide", center, 20, RenderColor.white.argb);
-        context.drawCenteredString(mc.font, "Right click element to view its settings", center, 30, RenderColor.white.argb);
-        context.drawCenteredString(mc.font, "Right click screen to add/remove elements", center, 40, RenderColor.white.argb);
+        context.centeredText(mc.font, "Violet HUD Editor", center, 10, RenderColor.white.argb);
+        context.centeredText(mc.font, "Left click element to hide", center, 20, RenderColor.white.argb);
+        context.centeredText(mc.font, "Right click element to view its settings", center, 30, RenderColor.white.argb);
+        context.centeredText(mc.font, "Right click screen to add/remove elements", center, 40, RenderColor.white.argb);
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
+    public boolean mouseClicked(@NonNull MouseButtonEvent click, boolean doubled) {
         if (this.uiAdapter == null) {
             return false;
         }
@@ -86,7 +86,12 @@ public class HudEditorScreen extends BaseOwoScreen<FlowLayout> {
                     label.tooltip(element.elementDesc);
                     label.verticalTextAlignment(VerticalAlignment.CENTER).margins(Insets.of(0, 0, 0, 5)).verticalSizing(Sizing.fixed(20));
                     ToggleButton toggle = new ToggleButton(element.isAdded());
-                    toggle.onToggled().subscribe(element.added::set);
+                    toggle.onToggled().subscribe(value -> {
+                        if (value && !element.instance.isActive()) {
+                            element.instance.setActive(true);
+                        }
+                        element.added.set(value);
+                    });
                     layout.child(label);
                     layout.child(toggle);
                     list.add(layout);
@@ -126,6 +131,6 @@ public class HudEditorScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public void onClose() {
-        mc.setScreen(new ClickGui());
+        super.onClose();
     }
 }

@@ -2,11 +2,11 @@ package violet.events;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class HudRenderEvent {
-    public GuiGraphics context;
+    public GuiGraphicsExtractor context;
     public Font textRenderer;
     public DeltaTracker tickCounter;
 

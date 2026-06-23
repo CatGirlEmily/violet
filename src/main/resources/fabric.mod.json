@@ -24,10 +24,10 @@
   ],
   "accessWidener" : "violet.accesswidener",
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=0.19.3",
     "fabric-api": "*",
     "owo-lib": "*",
-    "minecraft": ">=${minecraft_version}",
+    "minecraft": ">=26.1",
     "java": ">=25"
   }
 }
