@@ -1,0 +1,90 @@
+package violet.hud;
+
+import io.wispforest.owo.ui.core.OwoUIGraphics;
+import net.minecraft.network.chat.Component;
+import violet.config.Feature;
+import violet.misc.Utils;
+
+public class TickTimerElement extends SimpleTextElement {
+    protected final String timerText;
+    protected int ticks = -1;
+    protected int startTicks = 0;
+    protected boolean repeating = false;
+    protected boolean autoPause = false;
+
+    public TickTimerElement(String text, Feature instance, String label) {
+        super(Component.literal(Utils.format(text, "N/A")), instance, label);
+        this.timerText = text;
+    }
+
+    @Override
+    public void draw(OwoUIGraphics context, int mouseX, int mouseY, float partialTicks, float delta) {
+        if (!this.shouldRender()) {
+            return;
+        } else if (!this.isEditingHud() && !this.isTicking()) {
+            return;
+        }
+        this.updateTimer();
+        super.draw(context, mouseX, mouseY, partialTicks, delta);
+    }
+
+    public void setStartTicks(int ticks) {
+        this.startTicks = ticks;
+    }
+
+    public String ticksAsTime(int ticks) {
+        if (ticks < 0) {
+            return "0.00s";
+        }
+        return Utils.formatDecimal(ticks / 20.0) + "s";
+    }
+
+    public String getTimeColor() {
+        return Utils.getPercentageColor((double) this.ticks / this.startTicks);
+    }
+
+    public void updateTimer() {
+        this.setText(Utils.format(this.timerText, this.getTimeColor() + this.ticksAsTime(this.ticks)));
+    }
+
+    public void tick() {
+        if (this.ticks > 0) {
+            this.ticks--;
+        }
+        if (this.ticks == 0) {
+            if (this.repeating) {
+                this.ticks = this.startTicks;
+            } else {
+                this.ticks = -1;
+            }
+        }
+    }
+
+    public void start() {
+        this.ticks = this.startTicks;
+    }
+
+    public void pause() {
+        this.ticks = -1;
+    }
+
+    public boolean isTicking() {
+        return this.ticks != -1;
+    }
+
+    public boolean isRepeating() {
+        return this.repeating;
+    }
+
+    public void setRepeating(boolean repeating) {
+        this.repeating = repeating;
+    }
+
+    public void setAutoPause() {
+        this.autoPause = true;
+    }
+
+    public boolean isAutoPause() {
+        return this.autoPause;
+    }
+}
