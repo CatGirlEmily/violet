@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
 import violet.features.misc.VioletCommands;
 
+import java.util.Objects;
+
 public class _CommandHandler {
     private static final CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
 
@@ -31,7 +33,7 @@ public class _CommandHandler {
 
         String input = message.substring(1);
         Minecraft client = Minecraft.getInstance();
-        FabricClientCommandSource source = (FabricClientCommandSource) client.getConnection().getSuggestionsProvider();
+        FabricClientCommandSource source = (FabricClientCommandSource) Objects.requireNonNull(client.getConnection()).getSuggestionsProvider();
 
         try {
             dispatcher.execute(input, source);

@@ -119,9 +119,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
         else viewmodelmultiplier = 1;
 
         this.categories = Lists.newArrayList(
-            ////////////////////////////////////////////////////////////////////////////////////
-            /// player
-            ////////////////////////////////////////////////////////////////////////////////////
+            // //////////////////////////////////////////////////////////////////////////////////
+            // player
+            // //////////////////////////////////////////////////////////////////////////////////
             new Category("Player", List.of(
                 new Module("Break Delay", BreakDelay.instance, "<!> Disables the delay after breaking a block."),
                 new Module("Hotbar Scroll", HotbarScroll.instance, "Utilities for hotbar scrolling", new Settings(List.of(
@@ -133,9 +133,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 new Module("Use Delay", UseDelay.instance, "<!> Disables the use delay.")
             )),
 
-            ////////////////////////////////////////////////////////////////////////////////////
-            /// movement
-            ////////////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////////
+            // movement
+            // /////////////////////////////////////////////////////////////////////////////////
             new Category("Movement", List.of(
                 new Module("AutoSprint", AutoSprint.instance, "Toggle Sprint (better than minecraft's as does on reset on world change)", new Settings(List.of(
                     new Settings.Keybind("Toggle", AutoSprint.toggleKey, "Swaps between sprinting and walking.")
@@ -145,9 +145,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 )))
             )),
 
-            ////////////////////////////////////////////////////////////////////////////////////
-            /// render
-            ////////////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////////
+            // render
+            // /////////////////////////////////////////////////////////////////////////////////
             new Category("Render", List.of(
                 new Module("Debug Screen", DebugScreen.instance, "Modifiers for F3 screen", new Settings(List.of(
                     new Settings.SliderInt("XYZ precision", 1, 7, 1, DebugScreen.xyzPrecision, "Amount of digits after comma. Recommended 3 because everything after that doesn't matter\n except for very few edge cases (E-7 stepping) + floats loose precision past 7."),
@@ -199,9 +199,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 )))
             )),
 
-            ////////////////////////////////////////////////////////////////////////////////////
-            /// chat
-            ////////////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////////
+            //  chat
+            // /////////////////////////////////////////////////////////////////////////////////
             new Category("Chat", List.of(
                 new Module("Chat Rules", ChatRules.instance, "Create custom rules that activate when a matching message is sent in chat.", ChatRules.buildSettings()),
                 new Module("Chat Tweaks", ChatPatches.instance, "Various features/improvements for the chat hud.", new Settings(List.of(
@@ -218,9 +218,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 new Module("Command Tooltip", CommandTooltip.instance, "Reveals the command that the hovered chat message would run when clicked.")
             )),
 
-            ////////////////////////////////////////////////////////////////////////////////////
-            /// misc
-            ////////////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////////
+            // misc
+            // /////////////////////////////////////////////////////////////////////////////////
             new Category("Misc", List.of(
                 new Module("ClickGui", ClickGuiFeature.instance, "this gui", new Settings(List.of(
                     new Settings.Keybind("Open GUI", ClickGuiFeature.openKey, "key to open this gui"),

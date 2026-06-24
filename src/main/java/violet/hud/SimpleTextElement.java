@@ -77,10 +77,6 @@ public class SimpleTextElement extends HudElement {
         this.label.text(text.withColor(this.getTextColor()));
     }
 
-    public void setDefaultText() {
-        this.label.text(this.defaultText);
-    }
-
     public int getTextColor() {
         return this.textColor.value().hex;
     }
