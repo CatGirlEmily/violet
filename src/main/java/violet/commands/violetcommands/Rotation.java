@@ -9,7 +9,7 @@ import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static violet.Main.mc;
 
-public class Rotate {
+public class Rotation {
     public static void init(CommandDispatcher<ClientSuggestionProvider> dispatcher) {
         dispatcher.register(
                 LiteralArgumentBuilder.<ClientSuggestionProvider>literal("rotation")

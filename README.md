@@ -53,18 +53,22 @@ https://github.com/WhatYouThing/NoFrills
 <summary>Click to expand command list</summary>
 
 - **Mod Commands** (accessed under `.examplecommand` by default)
-    - **crash**: Crashes the game.
+    - **`crash`**: Crashes the game.
     - **`hclip (int)`**: Teleports you horizontally in the direction you're looking.
     - **`vclip (int)`**: Teleports you vertically.
-    - **`rotate (set/add) (yaw) (pitch)`**: Updates your player rotation to specified data.
+    - **`gm (0-3)`**: Changes your client-side gamemode.
+    - **`rotation (set/add) (yaw) (pitch)`**: Updates your player rotation to specified data.
     - **`say (string)`**: Says a thing. try out doing `.say <space character>`.
     - **`session`**: Copies your session id (token) to a clipboard. plz dont share it with anyone.
     - **`setpos (x) (y) (z)`**: Teleports you to provided coordinates.
-    - **`set(x/y/z) (int)`**: Sets your X/Y/Z to provided value. example use `.sety 320` -> teleports to y320.
+    - **`set(x/y/z) (int)`**: Sets your X/Y/Z to provided value. example use: `.sety 320` -> teleports to y320.
+    - **`timer (start/stop) <seconds>`**: Starts a counting down timer that will notify once finished.
     - **`silly`**: Test thing I refuse to delete. currently removes viewmodel limitations.
+  
 
 - **Other Commands** (under `/` prefix)
-    - **enchantv**: Essentially better /enchant command, requires creative mode as normal /enchant is handled server-side.
+    - **`violet`**: opens the main config menu.
+    - **`enchantv`**: Essentially better /enchant command, requires creative mode as normal /enchant is handled server-side.
 
 </details>
 

@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientSuggestionProvider;
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import violet.commands.violetcommands.*;
 import violet.features.misc.VioletCommands;
 
@@ -19,7 +18,7 @@ public class CommandHandler {
     public static void init() {
         Crash.init(dispatcher);
         VClip.init(dispatcher);
-        Rotate.init(dispatcher);
+        Rotation.init(dispatcher);
         Say.init(dispatcher);
         Session.init(dispatcher);
         Silly.init(dispatcher);
@@ -27,6 +26,7 @@ public class CommandHandler {
         SetPos.init(dispatcher);
         SetXYZ.init(dispatcher);
         Gm.init(dispatcher);
+        Timer.init(dispatcher);
     }
 
     // true if parsed as command
