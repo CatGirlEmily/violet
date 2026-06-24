@@ -62,7 +62,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
     private int hash = 0;
 
     private boolean matchSearch(String text, String search) {
-        return Utils.toLower(text).replaceAll(" ", "").contains(Utils.toLower(search).replaceAll(" ", ""));
+        return Utils.toLower(text).replace(" ", "").contains(Utils.toLower(search).replace(" ", ""));
     }
 
     @Override
@@ -154,7 +154,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.SliderInt("Facing precision", 1, 7, 1, DebugScreen.facingPrecision, "Amount of digits after comma. Recommended 2 as more dont affect movement at all.")
                 ))),
                 new Module("Fullbright", Fullbright.instance, "You know him, you love him.", new Settings(List.of(
-                    new Settings.Dropdown<>("Mode", Fullbright.mode, "The lighting mode.\n\nAmbient: Increases dimension ambient light, most reliable.\nGamma: Increases the Minecraft brightness setting to a high value.\nPotion: Permanently applies the Night Vision potion effect to your player."),
+                    new Settings.EnumToggle<>("Mode", Fullbright.mode, "The lighting mode.\n\nAmbient: Increases dimension ambient light, most reliable.\nGamma: Increases the Minecraft brightness setting to a high value.\nPotion: Permanently applies the Night Vision potion effect to your player."),
                     new Settings.Toggle("No Effect", Fullbright.noEffect, "Removes the Night Vision effect while active. Ignored if you use the Potion mode.")
                 ))),
                 new Module("Held Item Tooltip", HeldItemTooltip.instance, "Removes the text with held item's name."),
@@ -170,7 +170,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.SliderInt("time", 0, 24000, 1, TimeChanger.time, "6000 for noon, 18000 for midnight.")
                 ))),
                 new Module("Tooltip Scale", TooltipScale.instance, "Customize the scale of tooltips.", new Settings(List.of(
-                    new Settings.Dropdown<>("Mode", TooltipScale.mode, "The scaling mode.\n\nDynamic: Automatically scales down tooltips so that they always fit the screen.\nCustom: Scales tooltips using the Custom Scale value."),
+                    new Settings.EnumToggle<>("Mode", TooltipScale.mode, "The scaling mode.\n\nDynamic: Automatically scales down tooltips so that they always fit the screen.\nCustom: Scales tooltips using the Custom Scale value."),
                     new Settings.SliderDouble("Custom Scale", 0.0, 4.0, 0.01, TooltipScale.scale, "The custom scale multiplier. Ignored if using Dynamic mode.")
                 ))),
                 new Module("Viewmodel", Viewmodel.instance, "Easily customize the appearance of your held item.", new Settings(List.of(

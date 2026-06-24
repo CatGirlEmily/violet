@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import violet.features.misc.VioletCommands;
 
 public class _CommandHandler {
-    private static CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
+    private static final CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
 
     public static void init() {
         Silly.init(dispatcher);
@@ -21,7 +21,7 @@ public class _CommandHandler {
         Rotate.init(dispatcher);
         Say.init(dispatcher);
         Session.init(dispatcher);
-        test.init(dispatcher);
+        //test.init(dispatcher);
     }
 
     // true if parsed as command

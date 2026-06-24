@@ -1,13 +1,17 @@
 package violet.hud.clickgui;
 
 import io.wispforest.owo.ui.base.BaseOwoScreen;
-import io.wispforest.owo.ui.base.BaseUIComponent;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.UIComponents;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.container.UIContainers;
 import io.wispforest.owo.ui.core.*;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import violet.config.*;
 import violet.features.misc.ClickGuiFeature;
 import violet.hud.ColorPickerScreen;
@@ -23,15 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 
 import static violet.Main.mc;
 
 public class Settings extends BaseOwoScreen<FlowLayout> {
+
     private static int getColor() {
         return ClickGuiFeature.getAccentColor() | 0xFF000000;
     }
@@ -161,10 +161,8 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
         this.scroll = UIContainers.verticalScroll(Sizing.content(), Sizing.fixed(getSettingsHeight(settings.children())), settings);
         this.scroll.scrollbarThiccness(2).scrollbar(ScrollContainer.Scrollbar.flat(Color.ofArgb(0xffffffff)));
-        BaseUIComponent label = new PlainLabel(this.title)
-                .color(textColor)
-                .horizontalTextAlignment(HorizontalAlignment.CENTER)
-                .verticalTextAlignment(VerticalAlignment.CENTER);
+        PlainLabel label = new PlainLabel(this.title);
+        label.color(textColor).horizontalTextAlignment(HorizontalAlignment.CENTER).verticalTextAlignment(VerticalAlignment.CENTER);
         ParentUIComponent header = UIContainers.verticalFlow(Sizing.fixed(width), Sizing.content())
                 .child(label)
                 .alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER)
@@ -185,7 +183,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         return this;
     }
 
-    public static class Toggle extends FlowLayout {
+    public static final class Toggle extends FlowLayout {
         public SettingBool setting;
         public ToggleButton toggle;
 
@@ -208,7 +206,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class SliderDouble extends FlowLayout {
+    public static final class SliderDouble extends FlowLayout {
         public SettingDouble setting;
 
         public SliderDouble(String name, double min, double max, double step, SettingDouble setting, String tooltip) {
@@ -245,7 +243,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class SliderInt extends FlowLayout {
+    public static final class SliderInt extends FlowLayout {
         public SettingInt setting;
 
         public SliderInt(String name, int min, int max, int step, SettingInt setting, String tooltip) {
@@ -282,40 +280,30 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class Dropdown<T extends Enum<T>> extends FlowLayout {
+    public static final class EnumToggle<T extends Enum<T>> extends FlowLayout {
         public SettingEnum<T> setting;
 
-        public Dropdown(String name, SettingEnum<T> setting, String tooltip) {
+        public EnumToggle(String name, SettingEnum<T> setting, String tooltip) {
             super(Sizing.content(), Sizing.content(), Algorithm.HORIZONTAL);
             this.padding(Insets.of(5));
             this.horizontalAlignment(HorizontalAlignment.LEFT);
             this.setting = setting;
             PlainLabel label = new PlainLabel(Component.literal(name).withColor(0xffffff));
-            EnumCollapsible dropdown = new EnumCollapsible(this.setting.value().name());
+            EnumButton<T> button = new EnumButton<>(this.setting.value().name(), this.setting.defaultValue(), this.setting.values);
             label.verticalTextAlignment(VerticalAlignment.CENTER).margins(Insets.of(0, 0, 0, 5)).verticalSizing(Sizing.fixed(20));
             label.tooltip(Component.literal(tooltip));
-            dropdown.surface(Surface.flat(0xff101010).and(Surface.outline(getColor())));
-            for (T value : this.setting.values) {
-                ButtonComponent button = UIComponents.button(Component.nullToEmpty(value.name()), btn -> {
-                    dropdown.setLabel(value.name());
-                    this.setting.set(value);
-                    dropdown.toggleExpansion();
-                });
-                button.sizing(Sizing.content(), Sizing.fixed(12));
-                button.renderer((context, btn, delta) -> {
-                });
-                dropdown.child(button);
-            }
+            button.setMessage(Component.literal(this.setting.value().name()));
+            button.onChanged().subscribe(value -> this.setting.set(this.setting.toConstant(value)));
             this.child(label);
-            this.child(dropdown);
+            this.child(button);
             this.child(buildResetButton(btn -> {
                 this.setting.reset();
-                dropdown.setLabel(this.setting.value().name());
+                button.setMessage(Component.literal(this.setting.defaultValue().name()));
             }));
         }
     }
 
-    public static class ColorPicker extends FlowLayout {
+    public static final class ColorPicker extends FlowLayout {
         public SettingColor setting;
         public Screen previous;
 
@@ -344,7 +332,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class Separator extends FlowLayout {
+    public static final class Separator extends FlowLayout {
         public Separator(String name) {
             super(Sizing.content(), Sizing.content(), Algorithm.HORIZONTAL);
             this.padding(Insets.of(5));
@@ -365,7 +353,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class Description extends FlowLayout {
+    public static final class Description extends FlowLayout {
 
         public Description(String name, String description) {
             super(Sizing.content(), Sizing.content(), Algorithm.HORIZONTAL);
@@ -381,7 +369,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class TextInput extends FlowLayout {
+    public static final class TextInput extends FlowLayout {
         public SettingString setting;
 
         public TextInput(String name, SettingString setting, String tooltip) {
@@ -404,7 +392,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class Keybind extends FlowLayout {
+    public static final class Keybind extends FlowLayout {
         public SettingKeybind setting;
         public KeybindButton button;
 
@@ -428,7 +416,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class BigButton extends FlowLayout {
+    public static final class BigButton extends FlowLayout {
         public ButtonComponent button;
 
         public BigButton(String name, Consumer<ButtonComponent> onPress) {
@@ -442,7 +430,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class DoubleInput extends FlowLayout {
+    public static final class DoubleInput extends FlowLayout {
         public SettingDouble setting;
 
         public DoubleInput(String name, SettingDouble setting, String tooltip) {
@@ -465,7 +453,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-    public static class CustomHeight extends FlowLayout {
+    public static final class CustomHeight extends FlowLayout {
         public int heightOverride;
 
         public CustomHeight(int height) {

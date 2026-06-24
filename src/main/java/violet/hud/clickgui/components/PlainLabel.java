@@ -1,6 +1,7 @@
 package violet.hud.clickgui.components;
 
 import io.wispforest.owo.ui.component.LabelComponent;
+import io.wispforest.owo.ui.core.OwoUIGraphics;
 import io.wispforest.owo.ui.core.UIComponent;
 import java.util.List;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -33,6 +34,12 @@ public class PlainLabel extends LabelComponent {
     public LabelComponent text(Component text) {
         this.plainText = text.getString();
         return super.text(text);
+    }
+
+    @Override
+    public void drawTooltip(OwoUIGraphics context, int mouseX, int mouseY, float partialTicks, float delta) {
+        if (!this.shouldDrawTooltip(mouseX, mouseY)) return;
+        context.drawTooltip(mc.font, mouseX, mouseY, this.tooltip());
     }
 
     public int getTextHeight() { // premium
