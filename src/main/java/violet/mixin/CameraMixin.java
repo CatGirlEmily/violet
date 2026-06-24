@@ -12,6 +12,7 @@ public class CameraMixin {
     @ModifyReturnValue(method = "getFov", at = @At("RETURN"))
     private float modifyFov(float original) {
         if (Zoom.zoomedIn) return Zoom.targetFov;
+
         return original;
     }
 }

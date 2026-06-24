@@ -1,50 +1,44 @@
 package violet.commands.violetcommands;
 
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
-
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.util.Mth;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
+import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static violet.Main.mc;
 
 public class Rotate {
-    public static void init(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("rotate")
-            .then(literal("set")
-                .then(argument("yaw", FloatArgumentType.floatArg(-180, 180))
-                    .executes(ctx -> {
-                        mc.player.setYRot(FloatArgumentType.getFloat(ctx, "yaw"));
-                        return SINGLE_SUCCESS;
-                    })
-                    .then(argument("pitch", FloatArgumentType.floatArg(-90, 90))
-                        .executes(ctx -> {
-                            mc.player.setYRot(FloatArgumentType.getFloat(ctx, "yaw"));
-                            mc.player.setXRot(FloatArgumentType.getFloat(ctx, "pitch"));
-                            return SINGLE_SUCCESS;
-                        })
-                    )
-                )
-            )
-            .then(literal("add")
-                .then(argument("yaw", FloatArgumentType.floatArg(-180, 180))
-                    .executes(ctx -> {
-                        mc.player.setYRot(Mth.wrapDegrees(mc.player.getYRot() + FloatArgumentType.getFloat(ctx, "yaw")));
-                        return SINGLE_SUCCESS;
-                    })
-                    .then(argument("pitch", FloatArgumentType.floatArg(-90, 90))
-                        .executes(ctx -> {
-                            mc.player.setYRot(Mth.wrapDegrees(mc.player.getYRot() + FloatArgumentType.getFloat(ctx, "yaw")));
-                            float pitch = mc.player.getXRot() + FloatArgumentType.getFloat(ctx, "pitch");
-                            mc.player.setXRot(pitch >= 0 ? Math.min(pitch, 90) : Math.max(pitch, -90));
-                            return SINGLE_SUCCESS;
-                        })
-                    )
-                )
-            )
+    public static void init(CommandDispatcher<ClientSuggestionProvider> dispatcher) {
+        dispatcher.register(
+                LiteralArgumentBuilder.<ClientSuggestionProvider>literal("rotation")
+                        .then(LiteralArgumentBuilder.<ClientSuggestionProvider>literal("set")
+                                .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Float>argument("yaw", FloatArgumentType.floatArg(-180, 180))
+                                        .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Float>argument("pitch", FloatArgumentType.floatArg(-90, 90))
+                                                .executes(ctx -> {
+                                                    float yaw = FloatArgumentType.getFloat(ctx, "yaw");
+                                                    float pitch = FloatArgumentType.getFloat(ctx, "pitch");
+                                                    mc.player.setYRot(yaw);
+                                                    mc.player.setXRot(pitch);
+                                                    return SINGLE_SUCCESS;
+                                                })
+                                        )
+                                )
+                        )
+                        .then(LiteralArgumentBuilder.<ClientSuggestionProvider>literal("add")
+                                .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Float>argument("yaw", FloatArgumentType.floatArg(-180, 180))
+                                        .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Float>argument("pitch", FloatArgumentType.floatArg(-90, 90))
+                                                .executes(ctx -> {
+                                                    float yaw = FloatArgumentType.getFloat(ctx, "yaw");
+                                                    float pitch = FloatArgumentType.getFloat(ctx, "pitch");
+                                                    mc.player.setYRot(mc.player.getYRot() + yaw);
+                                                    mc.player.setXRot(mc.player.getXRot() + pitch);
+                                                    return SINGLE_SUCCESS;
+                                                })
+                                        )
+                                )
+                        )
         );
     }
 }

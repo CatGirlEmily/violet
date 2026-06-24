@@ -1,32 +1,32 @@
 package violet.commands.violetcommands;
 
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
-
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import violet.misc.Utils;
 
+import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
+
 public class SetPos {
-    public static void init(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("setpos")
-            .then(argument("x", DoubleArgumentType.doubleArg())
-                .then(argument("y", DoubleArgumentType.doubleArg())
-                    .then(argument("z", DoubleArgumentType.doubleArg())
-                        .executes(ctx -> {
-                            Utils.setPlayerPos(
-                                DoubleArgumentType.getDouble(ctx, "x"),
-                                DoubleArgumentType.getDouble(ctx, "y"),
-                                DoubleArgumentType.getDouble(ctx, "z")
-                            );
-                            return SINGLE_SUCCESS;
-                        })
-                    )
-                )
-            )
+    public static void init(CommandDispatcher<ClientSuggestionProvider> dispatcher) {
+        dispatcher.register(
+                LiteralArgumentBuilder.<ClientSuggestionProvider>literal("setpos")
+                        .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Double>argument("x", DoubleArgumentType.doubleArg())
+                                .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Double>argument("y", DoubleArgumentType.doubleArg())
+                                        .then(RequiredArgumentBuilder.<ClientSuggestionProvider, Double>argument("z", DoubleArgumentType.doubleArg())
+                                                .executes(ctx -> {
+                                                    Utils.setPlayerPos(
+                                                            DoubleArgumentType.getDouble(ctx, "x"),
+                                                            DoubleArgumentType.getDouble(ctx, "y"),
+                                                            DoubleArgumentType.getDouble(ctx, "z")
+                                                    );
+                                                    return SINGLE_SUCCESS;
+                                                })
+                                        )
+                                )
+                        )
         );
     }
 }
-

@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import violet.commands.EnchantVCommand;
 import violet.commands.VioletCommand;
-import violet.commands.violetcommands._CommandHandler;
+import violet.commands.CommandHandler;
 import violet.config.Config;
 import violet.events.ChatMsgEvent;
 import violet.events.OverlayMsgEvent;
@@ -72,7 +72,7 @@ public class Main implements ModInitializer {
         if (Config.isNew()) firstLaunch();
         Config.load();
         ConfigScreenProviders.register(MOD_ID, screen -> new ClickGui());
-        _CommandHandler.init();
+        CommandHandler.init();
         ClientCommandRegistrationCallback.EVENT.register(Main::registerCommands);
     
         eventBus.registerLambdaFactory(MOD_ID, (lookupInMethod, glass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, glass, MethodHandles.lookup()));

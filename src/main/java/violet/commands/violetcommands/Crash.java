@@ -1,18 +1,18 @@
 package violet.commands.violetcommands;
 
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
-
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public class Crash {
-    public static void init(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("crash").executes(context -> {
-            //mc.scheduleStop();    <- works just like pressing alt+f4 / X button
-            Runtime.getRuntime().halt(0);
-            return SINGLE_SUCCESS;
-        }));
+    public static void init(CommandDispatcher<ClientSuggestionProvider> dispatcher) {
+        dispatcher.register(LiteralArgumentBuilder.<ClientSuggestionProvider>literal("crash")
+                .executes(context -> {
+                    Runtime.getRuntime().halt(0);
+                    return SINGLE_SUCCESS;
+                })
+        );
     }
 }

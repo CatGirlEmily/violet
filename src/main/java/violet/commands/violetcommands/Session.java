@@ -1,20 +1,22 @@
 package violet.commands.violetcommands;
 
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
-import static violet.Main.mc;
 
 import com.mojang.brigadier.CommandDispatcher;
-
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import violet.misc.Utils;
 
+import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
+import static violet.Main.mc;
+
 public class Session {
-        public static void init(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("session").executes(context -> {
-            mc.keyboardHandler.setClipboard(mc.getUser().getAccessToken());
-            Utils.info("Session ID coppied to the clipboard!");
-            return SINGLE_SUCCESS;
-        }));
+    public static void init(CommandDispatcher<ClientSuggestionProvider> dispatcher) {
+        dispatcher.register(LiteralArgumentBuilder.<ClientSuggestionProvider>literal("session")
+                .executes(context -> {
+                    mc.keyboardHandler.setClipboard(mc.getUser().getAccessToken());
+                    Utils.info("Session ID coppied to the clipboard!");
+                    return SINGLE_SUCCESS;
+                })
+        );
     }
 }

@@ -32,7 +32,7 @@ public abstract class ConnectionMixin {
     }
 
     @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;Z)V", at = @At("HEAD"), cancellable = true)
-    private void onPacketSend(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, boolean flush, CallbackInfo ci) {
+    private void onPacketSend(Packet<?> packet, @Nullable ChannelFutureListener listener, boolean flush, CallbackInfo ci) {
         if (eventBus.post(new SendPacketEvent(packet)).isCancelled()) {
             ci.cancel();
         }

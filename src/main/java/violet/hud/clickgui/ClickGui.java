@@ -114,9 +114,8 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
         root.surface(Surface.VANILLA_TRANSLUCENT);
         FlowLayout parent = UIContainers.horizontalFlow(Sizing.content(), Sizing.content());
 
-        int viewmodelmultiplier;
+        int viewmodelmultiplier = 1;
         if (Silly.silly) viewmodelmultiplier = 100;
-        else viewmodelmultiplier = 1;
 
         this.categories = Lists.newArrayList(
             // //////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +166,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 //))),
                 new Module("No Break Particles", NoBlockBreakParticles.instance, "Disables block breaking particles."),
                 new Module("Time Changer", TimeChanger.instance, "Changes client-side time of day.", new Settings(List.of(
-                    new Settings.SliderInt("time", 0, 24000, 1, TimeChanger.time, "6000 for noon, 18000 for midnight.")
+                    new Settings.SliderInt("Tick", 0, 24000, 1, TimeChanger.time, "6000 for noon, 18000 for midnight.")
                 ))),
                 new Module("Tooltip Scale", TooltipScale.instance, "Customize the scale of tooltips.", new Settings(List.of(
                     new Settings.EnumToggle<>("Mode", TooltipScale.mode, "The scaling mode.\n\nDynamic: Automatically scales down tooltips so that they always fit the screen.\nCustom: Scales tooltips using the Custom Scale value."),

@@ -11,6 +11,7 @@ import io.wispforest.owo.ui.core.*;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import violet.commands.CommandHandler;
 import violet.config.Feature;
 import violet.config.SettingBool;
 import violet.config.SettingJson;
@@ -120,7 +121,9 @@ public class CommandKeybinds {
                     String command = bind.get("command").getAsString();
                     if (!command.isEmpty()) {
                         if (event.action == GLFW.GLFW_PRESS) {
-                            Utils.say(command);
+                            if (command.startsWith(String.valueOf(VioletCommands.getPrefix()))) {
+                                CommandHandler.handle(command, false);
+                            } else Utils.say(command);
                         }
                         event.cancel();
                         break;
