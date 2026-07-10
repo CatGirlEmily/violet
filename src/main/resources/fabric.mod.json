@@ -5,10 +5,10 @@
   "name": "Violet",
   "description": "General purpose fabric utility mod. Based on NoFrills <3\nOpen menu with /violet or right shift (can be customized in ClickGui feature)",
   "authors": [
-    "CatGirlEmily"
+    "capsoffpls"
   ],
   "contact": {
-    "sources": "https://github.com/CatGirlEmily/violet",
+    "sources": "https://github.com/capsoffpls/violet",
     "discord": ".javie"
   },
   "license": "GPL-3.0",

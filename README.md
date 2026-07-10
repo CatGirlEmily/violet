@@ -40,12 +40,12 @@ https://github.com/WhatYouThing/NoFrills
     - **Command Tooltip**: Reveals the command that hovered click event would run, but at the moment seems to be flawed.
     - 
 - **Misc**
-    - **Basic ClickGui Customization**: color, key, close behaviour.
+    - **Basic ClickGui Customization**: Accent color, Open Key, Close behaviour.
     - **Command Keybinds**: Allows you to bind command to a key, along with a server filter (the keybind will work only on specific server provided)
     - **No Fps Limiter**: For some reason there's no way to disable limit fps "option" in minecraft.
     - **No Confirm Screen**: Skips the "Confirm command execution" screen.
     - **No Loading Screen**: Skips "Loading Terrain" screen.
-    - **No Server Pack**: Very flawed at the moment but skips "forced" resource pakcs from the server.
+    - **No Server Pack**: Skips server resource packs when enabled. Also allows to dump all resource pack information to logs. (print to chat support yet to come)
     - **Violet Commands**: Read more below, allows to customize prefix & behavior.
 </details>
 

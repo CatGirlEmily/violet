@@ -176,6 +176,13 @@ public class Utils {
         return entity instanceof LivingEntity;
     }
 
+    /**
+     * Used to determine if game is in ready to play state, usually used before doing info() as it crashed the game
+     */
+    public static boolean canUpdate() {
+        return mc != null && mc.level != null && mc.player != null;
+    }
+
 
     public static void sendPingPacket() {
         ClientPacketListener handler = mc.getConnection();

@@ -104,9 +104,8 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
         this.mouseX = mouseX;
         this.mouseY = mouseY;
         int height = context.guiHeight();
-        context.text(this.font, "Left click a feature to toggle", 1, height - 30, RenderColor.white.argb);
-        context.text(this.font, "Right click a feature open its settings", 1, height - 20, RenderColor.white.argb);
-        context.text(this.font, "Scrolling supported in each category and the screen itself", 1, height - 10, RenderColor.white.argb);
+        context.text(this.font, "Left click a feature to toggle", 1, height - 20, RenderColor.white.argb);
+        context.text(this.font, "Right click a feature open its settings", 1, height - 10, RenderColor.white.argb);
     }
 
     @Override
@@ -230,7 +229,9 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                 new Module("No Confirm Screen", NoConfirmScreen.instance, "Skips 'confirm command execution' screen."),
                 new Module("No Fps Limiter", NoFpsLimiter.instance, "Disables minecraft's \"limit fps when AFK/minimize\" very cool much wanted feature."),
                 new Module("No Loading Screen", NoLoadingScreen.instance, "Removes \"loading terrain\" screen."),
-                new Module("No Server Pack", NoServerPack.instance, "Allows you to play without forced server resource pack"),
+                new Module("No Server Pack", NoServerPack.instance, "Skips server resource packs, both these required and not.", new Settings(List.of(
+                        new Settings.Toggle("Dump Data", NoServerPack.dump, "Prints information about the resource pack to logs (im currently working on\nmaking it print to chat but its hard)")
+                ))),
                 new Module("Violet Commands", VioletCommands.instance, "Custom Violet Commands, defaulting to '.' as prefix", new Settings(List.of(
                     new Settings.TextInput("Prefix", VioletCommands.prefix, "Prefix of the commands. defaults to '.', more than 1 character will have no effect."),
                     new Settings.Toggle("Open Chat On Keybind", VioletCommands.openChatOnKeybind, "Whether to open chat upon pressing prefix on your keyboard."),
@@ -247,6 +248,8 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
         this.mainScroll = UIContainers.horizontalScroll(Sizing.fill(100), Sizing.fill(100), parent);
         this.mainScroll.scrollbarThiccness(2).scrollbar(ScrollContainer.Scrollbar.flat(Color.ofArgb(0xffffffff)));
         root.child(this.mainScroll);
+
+        // open HUD Editor
         ButtonComponent hudEditorButton = UIComponents.button(Component.literal("Open HUD Editor"), button -> mc.setScreen(new HudEditorScreen()));
         hudEditorButton.margins(Insets.of(0, 3, 0, 3));
         hudEditorButton.positioning(Positioning.relative(100, 100));
@@ -255,6 +258,8 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
             Rendering.drawBorder(context, button.getX(), button.getY(), button.getWidth(), button.getHeight(), ClickGuiFeature.getAccentColor() | 0xFF000000);
         });
         root.child(hudEditorButton);
+        
+        // search box
         FlatTextbox searchBox = new FlatTextbox(Sizing.fixed(200));
         searchBox.setSuggestion("Search...");
         searchBox.margins(Insets.of(0, 3, 0, 0));
