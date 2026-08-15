@@ -16,25 +16,25 @@ import net.minecraft.world.entity.player.Inventory;
 import static violet.Main.eventBus;
 
 @Mixin(MouseHandler.class)
-public abstract class MouseMixin {
+public abstract class MouseHandlerMixin {
 
     @Inject(method = "onButton", at = @At("HEAD"), cancellable = true)
-    private void onMouseButton(long window, MouseButtonInfo input, int action, CallbackInfo ci) {
-        if (eventBus.post(new InputEvent(input, action)).isCancelled()) {
+    private void onMouseButton(long handle, MouseButtonInfo rawButtonInfo, int action, CallbackInfo ci) {
+        if (eventBus.post(new InputEvent(rawButtonInfo, action)).isCancelled()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "onScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;setSelectedSlot(I)V"), cancellable = true)
-    private void onBeforeSetSlot(long window, double horizontal, double vertical, CallbackInfo ci, @Local Inventory inv) {
+    private void onBeforeSetSlot(long handle, double xoffset, double yoffset, CallbackInfo ci, @Local(name = "inventory") Inventory inventory) {
         if (!HotbarScroll.instance.isActive()) return;
         
         if (HotbarScroll.lockScroll.value()) ci.cancel();
         else if (HotbarScroll.noOverflow.value()) {
-            int selected = inv.getSelectedSlot();
-            if (selected == 0 && (horizontal < 0.0 || vertical > 0.0)) {
+            int selected = inventory.getSelectedSlot();
+            if (selected == 0 && (xoffset < 0.0 || yoffset > 0.0)) {
                 ci.cancel();
-            } else if (selected == 8 && (horizontal > 0.0 || vertical < 0.0)) {
+            } else if (selected == 8 && (xoffset > 0.0 || yoffset < 0.0)) {
                 ci.cancel();
             }
         }

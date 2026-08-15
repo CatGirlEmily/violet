@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import violet.features.misc.NoFpsLimiter;
 
 @Mixin(FramerateLimitTracker.class)
-public class InactivityFpsLimiterMixin {
+public class FramerateLimitTrackerMixin {
 
    @Inject(method = "getFramerateLimit", at = @At("RETURN"), cancellable = true)
    private void onUpdate(CallbackInfoReturnable<Integer> cir) {

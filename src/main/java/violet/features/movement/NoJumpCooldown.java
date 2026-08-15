@@ -24,7 +24,7 @@ public class NoJumpCooldown {
 
     @EventHandler
     private static void onKey(InputEvent event) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
     
         if (toggleKey.isKey(event.key) && event.action == GLFW.GLFW_PRESS) {
             instance.setActive(!instance.isActive());        

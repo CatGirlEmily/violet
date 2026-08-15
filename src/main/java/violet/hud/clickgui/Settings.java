@@ -175,7 +175,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public void onClose() {
-        mc.setScreen(new ClickGui());
+        mc.gui.setScreen(new ClickGui());
     }
 
     public Settings setTitle(Component title) {
@@ -322,7 +322,7 @@ public class Settings extends BaseOwoScreen<FlowLayout> {
             ButtonComponent editButton = UIComponents.button(Component.literal("Edit Color"), (btn) -> {
                 ColorPickerScreen pickerScreen = ColorPickerScreen.build(this.setting, this.previous);
                 pickerScreen.setTitle(Component.literal(!Utils.toLower(name).endsWith("color") ? name + " Color" : name));
-                mc.setScreen(pickerScreen);
+                mc.gui.setScreen(pickerScreen);
             });
             editButton.horizontalSizing(Sizing.fixed(60));
             editButton.renderer(buttonRenderer);

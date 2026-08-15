@@ -250,7 +250,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
         root.child(this.mainScroll);
 
         // open HUD Editor
-        ButtonComponent hudEditorButton = UIComponents.button(Component.literal("Open HUD Editor"), button -> mc.setScreen(new HudEditorScreen()));
+        ButtonComponent hudEditorButton = UIComponents.button(Component.literal("Open HUD Editor"), button -> mc.gui.setScreen(new HudEditorScreen()));
         hudEditorButton.margins(Insets.of(0, 3, 0, 3));
         hudEditorButton.positioning(Positioning.relative(100, 100));
         hudEditorButton.renderer((context, button, delta) -> {

@@ -54,7 +54,7 @@ public class CommandKeybinds {
                 obj.addProperty("serverFilter", "");
                 object.get("binds").getAsJsonArray().add(obj);
             });
-            mc.setScreen(buildSettings());
+            mc.gui.setScreen(buildSettings());
         });
         button.button.verticalSizing(Sizing.fixed(18));
         list.add(button);
@@ -95,7 +95,7 @@ public class CommandKeybinds {
     @EventHandler
     public static void onKey(InputEvent event) {
         if (event.action != GLFW.GLFW_PRESS) return;
-        if (instance.isActive() && ((allowInGui.value() && mc.screen instanceof AbstractContainerScreen) || mc.screen == null)) {
+        if (instance.isActive() && ((allowInGui.value() && mc.gui.screen() instanceof AbstractContainerScreen) || mc.gui.screen() == null)) {
             if (data.value().has("binds")) {
                 for (JsonElement entry : data.value().get("binds").getAsJsonArray()) {
                     JsonObject bind = entry.getAsJsonObject();
@@ -160,12 +160,12 @@ public class CommandKeybinds {
             mainToggle.sizing(Sizing.fixed(50), Sizing.fixed(18)).margins(Insets.of(1, 0, 0, 3));
             mainToggle.tooltip(Component.literal("The main toggle for this command keybind."));
             mainToggle.onToggled().subscribe(toggle -> data.edit(obj -> this.getData(obj).addProperty("enabled", toggle)));
-            ButtonComponent editButton = UIComponents.button(Component.literal("Edit").withColor(0xffffff), button -> mc.setScreen(this.buildKeybindSettings()));
+            ButtonComponent editButton = UIComponents.button(Component.literal("Edit").withColor(0xffffff), button -> mc.gui.setScreen(this.buildKeybindSettings()));
             editButton.sizing(Sizing.fixed(48), Sizing.fixed(18)).margins(Insets.of(1, 0, 0, 0));
             editButton.renderer(Settings.buttonRendererWhite);
             ButtonComponent delete = UIComponents.button(Component.literal("Delete").withColor(0xffffff), button -> {
                 data.edit(object -> object.get("binds").getAsJsonArray().remove(this.index));
-                mc.setScreen(buildSettings());
+                mc.gui.setScreen(buildSettings());
             });
             delete.positioning(Positioning.relative(100, 50)).verticalSizing(Sizing.fixed(18));
             delete.renderer(Settings.buttonRendererWhite);
@@ -265,7 +265,7 @@ public class CommandKeybinds {
 
         @Override
         public void onClose() {
-            mc.setScreen(buildSettings());
+            mc.gui.setScreen(buildSettings());
         }
     }
 }

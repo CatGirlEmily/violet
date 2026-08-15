@@ -44,7 +44,7 @@ public class CommandHandler {
             violet.misc.Utils.info(e.getMessage());
         }
 
-        if (VioletCommands.addToHistory.value() && addToList) mc.gui.getChat().addRecentChat(VioletCommands.getPrefix() + input);
+        if (VioletCommands.addToHistory.value() && addToList) mc.gui.hud.getChat().addRecentChat(VioletCommands.getPrefix() + input);
         return true;
     }
 

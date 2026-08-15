@@ -25,7 +25,7 @@ public class ClickGuiFeature {
     @EventHandler
     private static void onKey(InputEvent event) {
         if (openKey.isKey(event.key) && event.action == GLFW.GLFW_PRESS) {               // on keybind press
-            Screen cScreen = mc.screen;
+            Screen cScreen = mc.gui.screen();
             
             if (cScreen instanceof ClickGui && closeIfOpen.value()) {
                 cScreen.onClose();

@@ -12,7 +12,7 @@ import static violet.Main.eventBus;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 
 @Mixin(MultiPlayerGameMode.class)
-public abstract class ClientPlayerInteractionManagerMixin {
+public abstract class MultiPlayerGameModeMixin {
 
     @Shadow private int destroyDelay;
 

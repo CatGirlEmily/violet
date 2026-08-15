@@ -12,11 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import violet.features.render.DebugScreen;
 
 @Mixin(DebugScreenOverlay.class)
-public class DebugHudMixin {
+public class DebugScreenOverlayMixin {
 
     @Inject(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;extractLines(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Ljava/util/List;Z)V", ordinal = 0))
     private void onExtractLeftLines(GuiGraphicsExtractor graphics, CallbackInfo ci, @Local(name = "leftLines") List<String> leftLines) {

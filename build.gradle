@@ -11,6 +11,8 @@ base {
 }
 
 repositories {
+    mavenLocal()
+
     maven {
         name = "wispforest-maven"
         url = 'https://maven.wispforest.io/releases/'

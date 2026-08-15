@@ -36,7 +36,7 @@ public class AutoSprint {
 
     @EventHandler
     private static void onKey(InputEvent event) {
-        if (!instance.isActive() || mc.screen != null) return;
+        if (!instance.isActive() || mc.gui.screen() != null) return;
         
         if (toggleKey.isKey(event.key) && event.action == GLFW.GLFW_PRESS) {
             isSprinting = !isSprinting;

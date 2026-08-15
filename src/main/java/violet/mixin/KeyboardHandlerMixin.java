@@ -13,7 +13,7 @@ import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.input.KeyEvent;
 
 @Mixin(KeyboardHandler.class)
-public abstract class KeyboardMixin {
+public abstract class KeyboardHandlerMixin {
     @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true)
     private void onKey(long window, int action, KeyEvent input, CallbackInfo ci) {
         if (input.key() != GLFW.GLFW_KEY_UNKNOWN) {

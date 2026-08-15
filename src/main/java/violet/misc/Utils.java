@@ -130,7 +130,7 @@ public class Utils {
         if (message.getStyle().getColor() == null) {
             message.withColor(0xffffff);
         }
-        mc.gui.getChat().addMessage(getTag().append(message), null, GuiMessageSource.SYSTEM_CLIENT, violetIndicator);
+        mc.gui.hud.getChat().addMessage(getTag().append(message), null, GuiMessageSource.SYSTEM_CLIENT, violetIndicator);
     }
 
     public static void infoFormat(String message, Object... values) {
@@ -374,13 +374,13 @@ public class Utils {
     }
 
     public static void setScreen(Screen screen) {
-        mc.schedule(() -> mc.setScreen(screen));
+        mc.schedule(() -> mc.gui.setScreen(screen));
     }
 
     public static void showTitle(MutableComponent title, MutableComponent subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
-        mc.gui.setTitle(title);
-        mc.gui.setSubtitle(subtitle);
-        mc.gui.setTimes(fadeInTicks, stayTicks, fadeOutTicks);
+        mc.gui.hud.setTitle(title);
+        mc.gui.hud.setSubtitle(subtitle);
+        mc.gui.hud.setTimes(fadeInTicks, stayTicks, fadeOutTicks);
     }
 
     public static void showTitle(String title, String subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {

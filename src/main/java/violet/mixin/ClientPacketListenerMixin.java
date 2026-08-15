@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static violet.Main.mc;
 
 @Mixin(ClientPacketListener.class)
-public class ClientPlayNetworkHandlerMixin {
+public class ClientPacketListenerMixin {
 
     @Inject(method = "handleSetEntityData", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;assignValues(Ljava/util/List;)V"))
     private void onPreTrackerUpdate(ClientboundSetEntityDataPacket packet, CallbackInfo ci, @Local Entity entity) {

@@ -32,8 +32,8 @@ public class VioletCommands {
         int expectedKey = getGlfwKey(getPrefix());
         if (expectedKey == -1 || event.key != expectedKey) return;
 
-        if (mc.screen == null) {
-            mc.setScreen(new ChatScreen("", false));
+        if (mc.gui.screen() == null) {
+            mc.gui.setScreen(new ChatScreen("", false));
         }
     }
 
