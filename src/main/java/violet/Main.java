@@ -15,6 +15,7 @@ import violet.commands.CommandHandler;
 import violet.config.Config;
 import violet.events.ChatMsgEvent;
 import violet.events.OverlayMsgEvent;
+import violet.features.chat.ChatCleaner;
 import violet.features.chat.ChatPatches;
 import violet.features.chat.ChatRules;
 import violet.features.chat.CommandAliases;
@@ -79,12 +80,13 @@ public class Main implements ModInitializer {
 
         ClientReceiveMessageEvents.ALLOW_GAME.register((message, overlay) -> {
             String msg = Utils.toPlain(message);
-
             if (overlay) return !eventBus.post(new OverlayMsgEvent(message, msg)).isCancelled();
-
             boolean cancelled = eventBus.post(new ChatMsgEvent(message, msg)).isCancelled();
+
             return !cancelled;
         });
+
+
 
         eventBus.subscribe(ClickGuiFeature.class);
         eventBus.subscribe(HudManager.class);
@@ -100,6 +102,7 @@ public class Main implements ModInitializer {
         
         eventBus.subscribe(ChatPatches.class);
         eventBus.subscribe(ChatRules.class);
+        eventBus.subscribe(ChatCleaner.class);
         eventBus.subscribe(CommandKeybinds.class);
         eventBus.subscribe(VioletCommands.class);
         eventBus.subscribe(NoServerPack.class);

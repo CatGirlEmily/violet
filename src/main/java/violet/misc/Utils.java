@@ -5,10 +5,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.ActiveTextCollector;
+import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.chat.GuiMessage;
 import net.minecraft.client.multiplayer.chat.GuiMessageSource;
 import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -23,6 +26,7 @@ import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.ping.ServerboundPingRequestPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -391,5 +395,53 @@ public class Utils {
         ServerData info = mc.getCurrentServer();
         if (info == null) return "singleplayer";
         return toLower(info.ip);
+    }
+
+
+    public static String getHoveredMsg(boolean singleLine) {
+        ChatComponent chatHud = mc.gui.hud.getChat();
+        float mouseX = (float) mc.mouseHandler.getScaledXPos(mc.getWindow());
+        float mouseY = (float) mc.mouseHandler.getScaledYPos(mc.getWindow());
+        int chatBottom = Mth.floor((mc.getWindow().getGuiScaledHeight() - 40) / mc.options.chatScale().get());
+        int messageHeight = 9;
+        double chatLineSpacing = mc.options.chatLineSpacing().get();
+        int entryHeight = (int) (messageHeight * (chatLineSpacing + 1.0));
+        int visibleEnd = Math.min(chatHud.trimmedMessages.size(), chatHud.chatScrollbarPos + ChatComponent.getHeight(mc.options.chatHeightFocused().get()) / entryHeight);
+        List<GuiMessage.Line> visibleMessages = chatHud.trimmedMessages.subList(chatHud.chatScrollbarPos, visibleEnd);
+        int i = -1;
+        for (int index = 0; index < visibleMessages.size(); index++) {
+            int entryBottom = chatBottom - index * entryHeight;
+            int entryTop = entryBottom - entryHeight;
+            if (ActiveTextCollector.isPointInRectangle(mouseX, mouseY, 0, entryTop, ChatComponent.getWidth(mc.options.chatWidth().get()), entryBottom)) {
+                i = index;
+                break;
+            }
+        }
+        if (i >= 0) {
+            StringBuilder builder = new StringBuilder();
+            List<GuiMessage.Line> lines = new ArrayList<>();
+            if (singleLine) {
+                lines.addFirst(visibleMessages.get(i));
+            } else {
+                for (int index = i + 1; index < visibleMessages.size(); index++) {
+                    GuiMessage.Line line = visibleMessages.get(index);
+                    if (line.endOfEntry()) break;
+                    lines.addFirst(line);
+                }
+                for (int index = i; index >= 0; index--) {
+                    GuiMessage.Line line = visibleMessages.get(index);
+                    lines.add(line);
+                    if (line.endOfEntry()) break;
+                }
+            }
+            for (GuiMessage.Line line : lines) {
+                line.content().accept((index, style, codePoint) -> {
+                    builder.appendCodePoint(codePoint);
+                    return true;
+                });
+            }
+            return ChatFormatting.stripFormatting(builder.toString());
+        }
+        return "";
     }
 }

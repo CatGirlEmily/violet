@@ -6,6 +6,12 @@ all the most essential features into one mod - Violet.
 Worth noting that the code is heavily based / copied from NoFrills by WhatYouThing, huge credit to them
 https://github.com/WhatYouThing/NoFrills
 
+## todo:
+fix zoom not zooming and names
+move tooltips to features class maybe
+update readme
+release
+
 ## Features
 
 <details>

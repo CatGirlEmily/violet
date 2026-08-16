@@ -124,12 +124,12 @@ public class ChatRules {
                 if (matchRule(obj, event.messagePlain)) {
                     String title = obj.get("title").getAsString();
                     if (!title.isEmpty()) {
-                        Utils.showTitle(title.replaceAll("&", "§"), "", obj.get("titleFadeIn").getAsInt(), obj.get("titleStay").getAsInt(), obj.get("titleFadeOut").getAsInt());
+                        Utils.showTitle(title.replace("&", "§"), "", obj.get("titleFadeIn").getAsInt(), obj.get("titleStay").getAsInt(), obj.get("titleFadeOut").getAsInt());
                     }
                     String customTitle = obj.has("customTitle") ? obj.get("customTitle").getAsString() : "";
                     if (!customTitle.isEmpty()) {
                         int ticks = obj.has("customTitleStay") ? obj.get("customTitleStay").getAsInt() : 40;
-                        HudManager.setCustomTitle(customTitle.replaceAll("&", "§"), ticks);
+                        HudManager.setCustomTitle(customTitle.replace("&", "§"), ticks);
                     }
                     String sound = obj.get("sound").getAsString();
                     if (!sound.isEmpty()) {

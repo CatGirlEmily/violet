@@ -4,10 +4,11 @@ import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.core.Insets;
 import io.wispforest.owo.ui.core.Sizing;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import violet.features.misc.ClickGuiFeature;
+import violet.hud.clickgui.ClickGui;
 import violet.misc.Rendering;
 
 public class FlatTextbox extends TextBoxComponent {
-    public int borderColor = 0xff5ca0bf;
 
     public FlatTextbox(Sizing horizontalSizing) {
         super(horizontalSizing);
@@ -19,7 +20,7 @@ public class FlatTextbox extends TextBoxComponent {
     @Override
     public void extractWidgetRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
         context.fill(this.x(), this.y(), this.getX() + this.width() + 4, this.y() + this.height(), 0xff101010);
-        Rendering.drawBorder(context, this.x(), this.y(), this.width() + 4, this.height(), this.borderColor);
+        Rendering.drawBorder(context, this.x(), this.y(), this.width() + 4, this.height(), ClickGuiFeature.getAccentColor()  | 0xFF000000);
         super.extractWidgetRenderState(context, mouseX, mouseY, deltaTicks);
     }
 

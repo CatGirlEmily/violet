@@ -1,12 +1,7 @@
 package violet.features.chat;
 
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.multiplayer.chat.GuiMessage;
-import net.minecraft.client.gui.ActiveTextCollector;
-import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.util.Mth;
 import violet.config.Feature;
 import violet.config.SettingBool;
 import violet.config.SettingInt;
@@ -14,10 +9,9 @@ import violet.config.SettingKeybind;
 import violet.events.InputEvent;
 import violet.misc.Utils;
 import org.lwjgl.glfw.GLFW;
-import java.util.ArrayList;
-import java.util.List;
 
 import static violet.Main.mc;
+import static violet.misc.Utils.getHoveredMsg;
 
 /*
     copied from nofrills
@@ -34,52 +28,6 @@ public class ChatPatches {
     public static final SettingBool extraLines = new SettingBool(false, "extraLines", instance);
     public static final SettingInt lines = new SettingInt(1000, "lines", instance);
 
-    private static String getHoveredMsg(boolean singleLine) {
-        ChatComponent chatHud = mc.gui.hud.getChat();
-        float mouseX = (float) mc.mouseHandler.getScaledXPos(mc.getWindow());
-        float mouseY = (float) mc.mouseHandler.getScaledYPos(mc.getWindow());
-        int chatBottom = Mth.floor((mc.getWindow().getGuiScaledHeight() - 40) / mc.options.chatScale().get());
-        int messageHeight = 9;
-        double chatLineSpacing = mc.options.chatLineSpacing().get();
-        int entryHeight = (int) (messageHeight * (chatLineSpacing + 1.0));
-        int visibleEnd = Math.min(chatHud.trimmedMessages.size(), chatHud.chatScrollbarPos + ChatComponent.getHeight(mc.options.chatHeightFocused().get()) / entryHeight);
-        List<GuiMessage.Line> visibleMessages = chatHud.trimmedMessages.subList(chatHud.chatScrollbarPos, visibleEnd);
-        int i = -1;
-        for (int index = 0; index < visibleMessages.size(); index++) {
-            int entryBottom = chatBottom - index * entryHeight;
-            int entryTop = entryBottom - entryHeight;
-            if (ActiveTextCollector.isPointInRectangle(mouseX, mouseY, 0, entryTop, ChatComponent.getWidth(mc.options.chatWidth().get()), entryBottom)) {
-                i = index;
-                break;
-            }
-        }
-        if (i >= 0) {
-            StringBuilder builder = new StringBuilder();
-            List<GuiMessage.Line> lines = new ArrayList<>();
-            if (singleLine) {
-                lines.addFirst(visibleMessages.get(i));
-            } else {
-                for (int index = i + 1; index < visibleMessages.size(); index++) {
-                    GuiMessage.Line line = visibleMessages.get(index);
-                    if (line.endOfEntry()) break;
-                    lines.addFirst(line);
-                }
-                for (int index = i; index >= 0; index--) {
-                    GuiMessage.Line line = visibleMessages.get(index);
-                    lines.add(line);
-                    if (line.endOfEntry()) break;
-                }
-            }
-            for (GuiMessage.Line line : lines) {
-                line.content().accept((index, style, codePoint) -> {
-                    builder.appendCodePoint(codePoint);
-                    return true;
-                });
-            }
-            return ChatFormatting.stripFormatting(builder.toString());
-        }
-        return "";
-    }
 
 
     @EventHandler

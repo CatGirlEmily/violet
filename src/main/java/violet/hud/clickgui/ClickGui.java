@@ -8,12 +8,13 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.container.UIContainers;
 import io.wispforest.owo.ui.core.*;
+import meteordevelopment.orbit.EventBus;
+import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
+import violet.Main;
 import violet.commands.violetcommands.Silly;
 import violet.config.Config;
-import violet.features.chat.ChatPatches;
-import violet.features.chat.ChatRules;
-import violet.features.chat.CommandAliases;
-import violet.features.chat.CommandTooltip;
+import violet.events.ConfigChangeEvent;
+import violet.features.chat.*;
 import violet.features.misc.ClickGuiFeature;
 import violet.features.misc.CommandKeybinds;
 import violet.features.misc.NoConfirmScreen;
@@ -213,7 +214,8 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.SliderInt("Lines", 100, 5000, 10, ChatPatches.lines, "The chat line limit override.")
                 ))),
                 new Module("Command Aliases", CommandAliases.instance, "Create commands which send a specific message/command when ran.\nNote: A rejoin is required to fully apply the changes made.", CommandAliases.buildSettings()),
-                new Module("Command Tooltip", CommandTooltip.instance, "Reveals the command that the hovered chat message would run when clicked.")
+                new Module("Command Tooltip", CommandTooltip.instance, "Reveals the command that the hovered chat message would run when clicked."),
+                new Module("Chat Cleaner", ChatCleaner.instance, ChatCleaner.tooltip, ChatCleaner.buildSettings())
             )),
 
             // /////////////////////////////////////////////////////////////////////////////////
@@ -309,6 +311,7 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
     @Override
     public void onClose() {
         if (hash != Config.getHash()) {
+            Main.eventBus.post(new ConfigChangeEvent());
             Config.saveAsync();
             hash = Config.getHash();
         }

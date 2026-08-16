@@ -14,6 +14,10 @@ public class VioletCommand {
             Utils.setScreen(new ClickGui());
             return SINGLE_SUCCESS;
         }));
+        dispatcher.register(literal("v").executes(context -> {
+            Utils.setScreen(new ClickGui());
+            return SINGLE_SUCCESS;
+        }));
     }
 }
 

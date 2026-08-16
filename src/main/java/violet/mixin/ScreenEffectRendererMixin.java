@@ -18,7 +18,7 @@ public class ScreenEffectRendererMixin {
 		if (LowFire.noRender.value()) ci.cancel();
 	}
 
-	@Inject(method = "buildFireQuad", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "buildFireQuad", at = @At("HEAD"))
 	private static void onBuildFireQuad(TextureAtlasSprite sprite, VertexConsumer builder, Matrix4f pose, CallbackInfo ci) {
 		if (LowFire.instance.isActive()) {
 			pose.translate(0.0F, -0.3F, 0.0F);
