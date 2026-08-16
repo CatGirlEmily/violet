@@ -15,13 +15,7 @@ import violet.commands.violetcommands.Silly;
 import violet.config.Config;
 import violet.events.ConfigChangeEvent;
 import violet.features.chat.*;
-import violet.features.misc.ClickGuiFeature;
-import violet.features.misc.CommandKeybinds;
-import violet.features.misc.NoConfirmScreen;
-import violet.features.misc.NoFpsLimiter;
-import violet.features.misc.NoLoadingScreen;
-import violet.features.misc.NoServerPack;
-import violet.features.misc.VioletCommands;
+import violet.features.misc.*;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
 import violet.features.player.BreakDelay;
@@ -238,6 +232,10 @@ public class ClickGui extends BaseOwoScreen<FlowLayout> {
                     new Settings.TextInput("Prefix", VioletCommands.prefix, "Prefix of the commands. defaults to '.', more than 1 character will have no effect."),
                     new Settings.Toggle("Open Chat On Keybind", VioletCommands.openChatOnKeybind, "Whether to open chat upon pressing prefix on your keyboard."),
                     new Settings.Toggle("Add To Sent History", VioletCommands.addToHistory, "If on, previously executed commands will be avaible with ARROWUP key.")
+                ))),
+                new Module("Reconnect Button", ReconnectButton.instance, ReconnectButton.tooltip, new Settings(List.of(
+                        new Settings.Toggle("Auto Reconnect", ReconnectButton.autoReconnect, "Automatically reconnects after given time."),
+                        new Settings.SliderDouble("Reconnect Time", 0, 10, 0.05, ReconnectButton.autoReconnectTime, "Amount of time to wait before reconnecting")
                 )))
             ))
         );

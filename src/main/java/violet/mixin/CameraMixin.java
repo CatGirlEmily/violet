@@ -9,9 +9,9 @@ import violet.features.render.Zoom;
 
 @Mixin(Camera.class)
 public class CameraMixin {
-    @ModifyReturnValue(method = "getFov", at = @At("RETURN"))
+    @ModifyReturnValue(method = "calculateFov", at = @At("RETURN"))
     private float modifyFov(float original) {
-        if (Zoom.zoomedIn) return Zoom.targetFov;
+        if (Zoom.isZoomedIn()) return Zoom.getTargetFov();
 
         return original;
     }

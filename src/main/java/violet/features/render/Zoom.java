@@ -24,15 +24,23 @@ public class Zoom {
 
     @EventHandler
     private static void onKey(InputEvent event) {
-        if (instance.isActive() && keybind. isKey(event.key) && mc.gui.screen() == null) {
+        if (instance.isActive() && keybind.isKey(event.key) && mc.gui.screen() == null) {
             if (event.action == GLFW.GLFW_PRESS) {
                 mc.options.smoothCamera = cinematic.value();
                 zoomedIn = true;
                 targetFov = (float) (mc.options.fov().get() / Math.max(1, scale.value()));
-            } else if (event.action == GLFW.GLFW_RELEASE || mc.gui.screen() != null) {
+            } else if (event.action == GLFW.GLFW_RELEASE) {
                 zoomedIn = false;
                 mc.options.smoothCamera = false; // unfortunately no revert to previous state
             }
         }
+    }
+
+    public static float getTargetFov() {
+        return targetFov;
+    }
+
+    public static boolean isZoomedIn() {
+        return zoomedIn && instance.isActive();
     }
 }

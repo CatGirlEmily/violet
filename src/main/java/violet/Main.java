@@ -19,10 +19,7 @@ import violet.features.chat.ChatCleaner;
 import violet.features.chat.ChatPatches;
 import violet.features.chat.ChatRules;
 import violet.features.chat.CommandAliases;
-import violet.features.misc.ClickGuiFeature;
-import violet.features.misc.CommandKeybinds;
-import violet.features.misc.NoServerPack;
-import violet.features.misc.VioletCommands;
+import violet.features.misc.*;
 import violet.features.movement.AutoSprint;
 import violet.features.movement.NoJumpCooldown;
 import violet.features.player.BreakDelay;
@@ -106,6 +103,7 @@ public class Main implements ModInitializer {
         eventBus.subscribe(CommandKeybinds.class);
         eventBus.subscribe(VioletCommands.class);
         eventBus.subscribe(NoServerPack.class);
+        eventBus.subscribe(ReconnectButton.class);
     }
 
     private void firstLaunch() {

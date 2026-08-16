@@ -18,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
 import org.joml.Matrix3x2fStack;
-import org.joml.Vector2ic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -40,8 +39,8 @@ public abstract class GuiGraphicsExtractorMixin {
     public abstract int guiHeight();
 
     @ModifyExpressionValue(method = "componentHoverEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/HoverEvent$ShowText;value()Lnet/minecraft/network/chat/Component;"))
-    private Component getHoveredText(Component original, @Local(argsOnly = true) Style style) {
-        if (CommandTooltip.instance.isActive() && style.getClickEvent() instanceof ClickEvent.RunCommand(
+    private Component getHoveredText(Component original, @Local(argsOnly = true, name = "hoveredStyle") Style hoveredStyle) {
+        if (CommandTooltip.instance.isActive() && hoveredStyle.getClickEvent() instanceof ClickEvent.RunCommand(
                 String command
         )) {
             return original.copy().append("\n\n").append(Utils.getShortTag().append(command));
@@ -50,20 +49,20 @@ public abstract class GuiGraphicsExtractorMixin {
     }
 
     @Inject(method = "tooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/tooltip/TooltipRenderUtil;extractTooltipBackground(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIIILnet/minecraft/resources/Identifier;)V"))
-    private void beforeDrawTooltip(Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo ci, @Local Vector2ic pos, @Local(ordinal = 2) int width, @Local(ordinal = 3) int height) {
+    private void beforeDrawTooltip(Font font, List<ClientTooltipComponent> lines, int xo, int yo, ClientTooltipPositioner positioner, @Nullable Identifier style, CallbackInfo ci, @Local(name = "textWidth") int textWidth, @Local(name = "tempHeight") int tempHeight) {
         if (TooltipScale.instance.isActive()) {
             if (TooltipScale.isDynamic()) {
                 int screenX = this.guiWidth();
                 int screenY = this.guiHeight();
-                float scaleX = Math.min((float) screenX / (width + 8), 1.0f);
-                float scaleY = Math.min((float) screenY / (height + 8), 1.0f);
+                float scaleX = Math.min((float) screenX / (textWidth + 8), 1.0f);
+                float scaleY = Math.min((float) screenY / (tempHeight + 8), 1.0f);
                 float scale = Math.min(scaleX, scaleY);
-                float offsetY = y + (height * scale - y);
-                this.pose.translate(x - x * scale, offsetY - offsetY * scale);
+                float offsetY = yo + (tempHeight * scale - yo);
+                this.pose.translate(xo - xo * scale, offsetY - offsetY * scale);
                 this.pose.scale(scale, scale);
             } else if (TooltipScale.isCustom()) {
                 float scale = (float) TooltipScale.scale.value();
-                this.pose.translate(x - x * scale, y - y * scale);
+                this.pose.translate(xo - xo * scale, yo - yo * scale);
                 this.pose.scale(scale, scale);
             }
         }

@@ -1,16 +1,10 @@
-# Violet 26.1
+# Violet 26.2
 
 I don't like having 20 different mods, some conflicting, some being also hacked clients, so I compiled
 all the most essential features into one mod - Violet.
 
 Worth noting that the code is heavily based / copied from NoFrills by WhatYouThing, huge credit to them
 https://github.com/WhatYouThing/NoFrills
-
-## todo:
-fix zoom not zooming and names
-move tooltips to features class maybe
-update readme
-release
 
 ## Features
 
@@ -32,7 +26,7 @@ release
     - **Debug Screen**: Allows you to customize float precision of certain F3 screen components.
     - **Fullbright**: You know it, you love it.
     - **Held Item Tooltip**: Hides the text that shows when switching items.
-    - **Low Fire**: Lower Fire texture by changing matrices during rendering.
+    - **Low Fire**: Lower Fire texture by changing matrices during rendering. Also has no render option
     - **No Break Particles**: Hides the particles appearing when breaking a block.
     - **Time Changer**: Allows you to change client-side time of the day.
     - **Tooltip Scale**: Allows you to set custom size of the tooltip, or to make it always fit on the screen.
@@ -40,18 +34,20 @@ release
     - **Zoom**: Optifine-like zoom.
 
 - **Chat**
-    - **Chat Rules**: Allows you to add an alert when specific message in the chat appears, or just cancel it.
-    - **Chat Tweaks**: Copy line key, Keep chat history, Longer chat history.
-    - **Command Aliases**: Allows you to add aliases to already existing commands, so like /gm1 -> /gamemode creative.
-    - **Command Tooltip**: Reveals the command that hovered click event would run, but at the moment seems to be flawed.
-    - 
+      - **Chat Cleaner**: Cancel specific messages / patterns from displaying on chat. Supports regex.
+      - **Chat Rules**: Allows you to add an alert when specific message in the chat appears, or just cancel it.
+      - **Chat Tweaks**: Copy line key, Keep chat history, Longer chat history.
+      - **Command Aliases**: Allows you to add aliases to already existing commands, so like /gm1 -> /gamemode creative.
+      - **Command Tooltip**: Reveals the command that hovered click event would run, but at the moment seems to be flawed.
+      - 
 - **Misc**
     - **Basic ClickGui Customization**: Accent color, Open Key, Close behaviour.
     - **Command Keybinds**: Allows you to bind command to a key, along with a server filter (the keybind will work only on specific server provided)
     - **No Fps Limiter**: For some reason there's no way to disable limit fps "option" in minecraft.
     - **No Confirm Screen**: Skips the "Confirm command execution" screen.
     - **No Loading Screen**: Skips "Loading Terrain" screen.
-    - **No Server Pack**: Skips server resource packs when enabled. Also allows to dump all resource pack information to logs. (print to chat support yet to come)
+    - **No Server Pack**: ~~Skips server resource packs when enabled.~~ Also allows to dump all resource pack information.
+    - **Reconnect button**: Adds a "Reconnect" button to Disconnect screen, also features auto reconnect.
     - **Violet Commands**: Read more below, allows to customize prefix & behavior.
 </details>
 
@@ -83,6 +79,7 @@ release
 
 - **FPS**: Displays your FPS.
 - **TPS**: Displays the real time TPS of the server, and optionally the average TPS.
+- **Lag Meter**: Displays the time since last recevied server tick.
 - **Ping**: Displays your ping.
 - **Day**: Displays the day that the server world is on.
 - **Armor**: Displays your current armor set.
