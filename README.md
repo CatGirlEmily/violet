@@ -34,12 +34,11 @@ https://github.com/WhatYouThing/NoFrills
     - **Zoom**: Optifine-like zoom.
 
 - **Chat**
-      - **Chat Cleaner**: Cancel specific messages / patterns from displaying on chat. Supports regex.
-      - **Chat Rules**: Allows you to add an alert when specific message in the chat appears, or just cancel it.
-      - **Chat Tweaks**: Copy line key, Keep chat history, Longer chat history.
-      - **Command Aliases**: Allows you to add aliases to already existing commands, so like /gm1 -> /gamemode creative.
-      - **Command Tooltip**: Reveals the command that hovered click event would run, but at the moment seems to be flawed.
-      - 
+    - **Chat Cleaner**: Cancel specific messages / patterns from displaying on chat. Supports regex.
+    - **Chat Rules**: Allows you to add an alert when specific message in the chat appears, or just cancel it.
+    - **Chat Tweaks**: Copy line key, Keep chat history, Longer chat history.
+    - **Command Aliases**: Allows you to add aliases to already existing commands, so like /gm1 -> /gamemode creative.
+    - **Command Tooltip**: Reveals the command that hovered click event would run, but at the moment seems to be flawed.
 - **Misc**
     - **Basic ClickGui Customization**: Accent color, Open Key, Close behaviour.
     - **Command Keybinds**: Allows you to bind command to a key, along with a server filter (the keybind will work only on specific server provided)
